@@ -7,22 +7,22 @@ export default function BlogId() {
     const param = useParams()
     const [data,setData] = React.useState([])
 
-    const fetchUsers = async () => {
-        const docRef = doc(db, "blogs", param.id);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-            const datas = { id: docSnap.id, ...docSnap.data() };
-            console.log(datas);
-            setData(datas);
-        } else {
-            console.log("No such document!");
-        }
-    };
-
     React.useEffect(() => {
-        fetchUsers()
-    },[])
+        const fetchUsers = async () => {
+            const docRef = doc(db, "blogs", param.id);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const datas = { id: docSnap.id, ...docSnap.data() };
+                console.log(datas);
+                setData(datas);
+            } else {
+                console.log("No such document!");
+            }
+        };
+
+        fetchUsers();
+    }, [param.id]);
 
   return (
     <div>
