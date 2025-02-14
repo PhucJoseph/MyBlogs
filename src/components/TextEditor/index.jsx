@@ -88,8 +88,8 @@ import "./Editor.css";
 const LICENSE_KEY =
   "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDA1Mjc5OTksImp0aSI6ImQ3OWE0YWRmLTBlY2ItNGQ1YS05MmEzLWI4YjYyNTBjZmVhZiIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjNjY2M4Y2I1In0.4ada7CZlkiW0xarazIcV7zYPMrXTbV9B6Sq3wmC-ZML3ElcxfmVHdD41vLgElYfRqhF8PC5ug0F9bRPI4Hr9Wg";
 
-const CLOUD_SERVICES_TOKEN_URL =
-  "https://buibhoo0eea9.cke-cs.com/token/dev/269e3e816260c873306e728732e875df4ffb70614c3338e2d11fe21d809c?limit=10";
+// const CLOUD_SERVICES_TOKEN_URL =
+//   "https://buibhoo0eea9.cke-cs.com/token/dev/269e3e816260c873306e728732e875df4ffb70614c3338e2d11fe21d809c?limit=10";
 
 export default function Editor() {
   const editorContainerRef = useRef(null);
@@ -226,9 +226,9 @@ export default function Editor() {
           Underline,
           WordCount,
         ],
-        cloudServices: {
-          tokenUrl: CLOUD_SERVICES_TOKEN_URL,
-        },
+        // cloudServices: {
+        //   tokenUrl: CLOUD_SERVICES_TOKEN_URL,
+        // },
         fontFamily: {
           supportAllValues: true,
         },

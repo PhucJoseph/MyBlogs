@@ -26,10 +26,28 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/login" replace />} />
-      <Route index element={<Login />} path="/login" />
-      <Route element={<HomePage />} path="/home-page" />
-      <Route element={<BlogId />} path="/:id" />
+      <Route
+        element={
+          <>
+            <CustomToaster />
+            <Outlet />
+          </>
+        }
+      >
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route index element={<Login />} path="/login" />
+        <Route
+          element={
+            <>
+              <Navbar />
+              <Outlet />
+            </>
+          }
+        >
+          <Route element={<HomePage />} path="/home-page" />
+          <Route element={<BlogId />} path="/:id" />
+        </Route>
+      </Route>
     </Routes>
   );
 }
