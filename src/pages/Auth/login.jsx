@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
-import SnackBarComponent from "../../components/SnackBar";
 import CardCover from "../../components/Card";
 import { Stack, Typography, TextField, Button, Grid } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -8,19 +7,14 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import { signIn, loginAsGuest } from "../../firebase/Auth/authentication";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const methods = useForm();
-  const [snackBarOpen, setSnackBarOpen] = useState(false);
-  const [snackBarType, setSnackBarType] = useState(0);
-  const [snackBarMessage, setSnackBarMessage] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
-  const handleSnackBarClose = () => {
-    setSnackBarOpen(false); // Close the snackbar
-  };
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -34,16 +28,13 @@ export default function Login() {
     setLoading(true);
     const result = await signIn(data.email, data.password);
     if (result.success) {
-      setSnackBarType(0); // Set the type of the snackbar (0 for success, 1 for info, etc.)
-      setSnackBarMessage(result.message); // Set the message for the snackbar
-      setSnackBarOpen(true); // Open the snackbar
+      toast.success(result.message);
+
       setTimeout(() => {
         navigate("/home-page");
       }, 1000);
     } else {
-      setSnackBarType(3); // Set the type of the snackbar (0 for success, 1 for info, etc.)
-      setSnackBarMessage(result.message); // Set the message for the snackbar
-      setSnackBarOpen(true); // Open the snackbar
+      toast(result.message);
     }
     setLoading(false);
   };
@@ -52,16 +43,12 @@ export default function Login() {
     setLoading(true);
     const result = await loginAsGuest();
     if (result.success) {
-      setSnackBarType(0); // Set the type of the snackbar (0 for success, 1 for info, etc.)
-      setSnackBarMessage(result.message); // Set the message for the snackbar
-      setSnackBarOpen(true); // Open the snackbar
+      toast.success(result.message);
       setTimeout(() => {
         navigate("/home-page");
       }, 1000);
     } else {
-      setSnackBarType(3); // Set the type of the snackbar (0 for success, 1 for info, etc.)
-      setSnackBarMessage(result.message); // Set the message for the snackbar
-      setSnackBarOpen(true); // Open the snackbar
+      toast.error(result.message);
     }
     setLoading(false);
   };
@@ -122,7 +109,11 @@ export default function Login() {
                                   onMouseDown={handleMouseDownPassword}
                                   edge="end"
                                 >
-                                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                                  {showPassword ? (
+                                    <VisibilityOff />
+                                  ) : (
+                                    <Visibility />
+                                  )}
                                 </IconButton>
                               </InputAdornment>
                             ),
@@ -160,13 +151,6 @@ export default function Login() {
           </Stack>
         </CardCover>
       </Grid>
-
-      <SnackBarComponent
-        open={snackBarOpen}
-        type={snackBarType}
-        message={snackBarMessage}
-        onClose={handleSnackBarClose}
-      />
     </Grid>
   );
 }
