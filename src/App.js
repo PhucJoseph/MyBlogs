@@ -1,13 +1,20 @@
-import { Route, Routes, useNavigate, useLocation, Navigate  } from "react-router-dom";
-import { useEffect } from "react";
-import HomePage from "./pages/homePage";
-import BlogId from "./pages/blogId";
-import Login from "./pages/Auth/login";
+import React, { Suspense, lazy, useEffect } from "react";
+import {
+  Route,
+  Routes,
+  useNavigate,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
+
+const HomePage = lazy(() => import("./pages/homePage"));
+const BlogId = lazy(() => import("./pages/blogId"));
+const Login = lazy(() => import("./pages/Auth/login"));
 
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token && location.pathname === "/login") {
