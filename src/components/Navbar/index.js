@@ -36,6 +36,10 @@ export default function DrawerAppBar(props) {
   const fetchData = async () => {
     try {
       let result = await getAllTypeOfBlogs();
+      const token = localStorage.getItem("token");
+      if (token !== null) {
+        result.push({id: "0", name:'Create post', url:'/create-post'})
+      }
       setNavItems(result);
     } catch (error) {
       toast.error("OOPS, Có lỗi rồi 〒▽〒");

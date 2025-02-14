@@ -5,11 +5,16 @@ import {
   useNavigate,
   useLocation,
   Navigate,
+  Outlet,
 } from "react-router-dom";
 
-const HomePage = lazy(() => import("./pages/homePage"));
-const BlogId = lazy(() => import("./pages/blogId"));
-const Login = lazy(() => import("./pages/Auth/login"));
+import Navbar from "./components/Navbar";
+import CustomToaster from "./components/Toast";
+import Loading from "./components/Loading";
+
+const HomePage = lazy(() => import("./pages/Home"));
+const BlogId = lazy(() => import("./pages/BlogId"));
+const Login = lazy(() => import("./pages/Auth"));
 
 function App() {
   const navigate = useNavigate();
@@ -35,7 +40,15 @@ function App() {
         }
       >
         <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route index element={<Login />} path="/login" />
+        <Route
+          index
+          element={
+            <Suspense fallback={<Loading />}>
+              <Login />
+            </Suspense>
+          }
+          path="/login"
+        />
         <Route
           element={
             <>
@@ -44,8 +57,22 @@ function App() {
             </>
           }
         >
-          <Route element={<HomePage />} path="/home-page" />
-          <Route element={<BlogId />} path="/:id" />
+          <Route
+            element={
+              <Suspense fallback={<Loading />}>
+                <HomePage />
+              </Suspense>
+            }
+            path="/home-page"
+          />
+          <Route
+            element={
+              <Suspense fallback={<Loading />}>
+                <BlogId />
+              </Suspense>
+            }
+            path="/:id"
+          />
         </Route>
       </Route>
     </Routes>

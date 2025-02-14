@@ -1,11 +1,10 @@
 import React from "react";
-import "../App.css";
-import { db } from "../firebase/firebase";
+import { db } from "../../firebase/firebase";
 import { query, where, getDocs, collection } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import TextEditor from "../components/TextEditor";
-import { getAllBlogs } from "../firebase/Blogs/blogs";
-import CardCover from "../components/Card";
+import TextEditor from "../../components/TextEditor";
+import { getAllBlogs } from "../../firebase/Blogs/blogs";
+import CardCover from "../../components/Card";
 import { Grid2, Stack, Typography, Divider } from "@mui/material";
 
 function HomePage() {
@@ -34,12 +33,12 @@ function HomePage() {
   }, []);
 
   const handleNavigate = (type, id) => {
-    let path = ""
+    let path = "";
     if (type === "Daily life") {
       path = "/daily-life/" + id;
     }
-    path = '/' + String(type).toLowerCase() +'/' + id
-    
+    path = "/" + String(type).toLowerCase() + "/" + id;
+
     navigate(path);
   };
 
@@ -96,8 +95,12 @@ function HomePage() {
                   }}
                 />
                 <Divider sx={{ marginBottom: "5px" }} />
-                <Typography>{item.title}</Typography>
-                <Typography>{item.type}</Typography>
+                <Typography sx={{ fontFamily: "Merienda" }}>
+                  {item.title}
+                </Typography>
+                <Typography sx={{ fontFamily: "Merienda" }}>
+                  {item.type}
+                </Typography>
               </Stack>
             </CardCover>
           </Grid2>
