@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { db } from "../firebase/firebase";
+import { db } from "../../firebase/firebase";
 import { getDoc, doc} from "firebase/firestore";
 
 export default function BlogId() {

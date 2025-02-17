@@ -10,8 +10,8 @@ import {
   BlockQuote,
   Bold,
   Bookmark,
-  CKBox,
-  CloudServices,
+  // CKBox,
+  //CloudServices,
   Code,
   CodeBlock,
   Essentials,
@@ -22,7 +22,7 @@ import {
   FontSize,
   FullPage,
   GeneralHtmlSupport,
-  Heading,
+  // Heading,
   Highlight,
   HorizontalLine,
   HtmlComment,
@@ -88,26 +88,18 @@ import "./Editor.css";
 const LICENSE_KEY =
   "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDA1Mjc5OTksImp0aSI6ImQ3OWE0YWRmLTBlY2ItNGQ1YS05MmEzLWI4YjYyNTBjZmVhZiIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjNjY2M4Y2I1In0.4ada7CZlkiW0xarazIcV7zYPMrXTbV9B6Sq3wmC-ZML3ElcxfmVHdD41vLgElYfRqhF8PC5ug0F9bRPI4Hr9Wg";
 
-// const CLOUD_SERVICES_TOKEN_URL =
-//   "https://buibhoo0eea9.cke-cs.com/token/dev/269e3e816260c873306e728732e875df4ffb70614c3338e2d11fe21d809c?limit=10";
-
-export default function Editor() {
+export default function Editor({setContent}) {
   const editorContainerRef = useRef(null);
   const editorRef = useRef(null);
   const editorWordCountRef = useRef(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
   const editorMenuBarRef = useRef(null);
-  const [editorData, setEditorData] = useState("");
 
   useEffect(() => {
     setIsLayoutReady(true);
 
     return () => setIsLayoutReady(false);
   }, []);
-
-  const handleSave = async () => {
-    console.log(editorData);
-  };
 
   const { editorConfig } = useMemo(() => {
     if (!isLayoutReady) {
@@ -158,8 +150,8 @@ export default function Editor() {
           BlockQuote,
           Bold,
           Bookmark,
-          CKBox,
-          CloudServices,
+          // CKBox,
+          //CloudServices,
           Code,
           CodeBlock,
           Essentials,
@@ -170,7 +162,7 @@ export default function Editor() {
           FontSize,
           FullPage,
           GeneralHtmlSupport,
-          Heading,
+          // Heading,
           Highlight,
           HorizontalLine,
           HtmlComment,
@@ -221,7 +213,7 @@ export default function Editor() {
           TableToolbar,
           TextPartLanguage,
           TextTransformation,
-          Title,
+          // Title,
           TodoList,
           Underline,
           WordCount,
@@ -336,9 +328,9 @@ export default function Editor() {
           ],
         },
         menuBar: {
-          isVisible: true,
+          isVisible: false,
         },
-        placeholder: "Type or paste your content here!",
+        //placeholder: "Type or paste your content here!",
         table: {
           contentToolbar: [
             "tableColumn",
@@ -353,12 +345,6 @@ export default function Editor() {
     };
   }, [isLayoutReady]);
 
-  // useEffect(() => {
-  //   if (editorConfig) {
-  //     configUpdateAlert(editorConfig);
-  //   }
-  // }, [editorConfig]);
-
   return (
     <div className="main-container">
       <div
@@ -369,6 +355,7 @@ export default function Editor() {
           <div ref={editorRef}>
             {editorConfig && (
               <CKEditor
+                name="content"
                 onReady={(editor) => {
                   const wordCount = editor.plugins.get("WordCount");
                   editorWordCountRef.current.appendChild(
@@ -391,13 +378,13 @@ export default function Editor() {
                 editor={ClassicEditor}
                 config={editorConfig}
                 onChange={(event, editor) => {
-                  setEditorData(editor.getData()); // Store content as HTML
+                  setContent(editor.getData()); // Store content as HTML
                 }}
               />
             )}
           </div>
         </div>
-        <button onClick={handleSave}>Save</button>
+        {/* <button onClick={handleSave}>Save</button> */}
         <div
           className="editor_container__word-count"
           ref={editorWordCountRef}
@@ -407,49 +394,3 @@ export default function Editor() {
     </div>
   );
 }
-
-/**
- * This function exists to remind you to update the config needed for premium features.
- * The function can be safely removed. Make sure to also remove call to this function when doing so.
- */
-// function configUpdateAlert(config) {
-//   if (configUpdateAlert.configUpdateAlertShown) {
-//     return;
-//   }
-
-//   const isModifiedByUser = (currentValue, forbiddenValue) => {
-//     if (currentValue === forbiddenValue) {
-//       return false;
-//     }
-
-//     if (currentValue === undefined) {
-//       return false;
-//     }
-
-//     return true;
-//   };
-
-//   const valuesToUpdate = [];
-
-//   configUpdateAlert.configUpdateAlertShown = true;
-
-//   if (
-//     !isModifiedByUser(
-//       config.cloudServices?.tokenUrl,
-//       "<YOUR_CLOUD_SERVICES_TOKEN_URL>"
-//     )
-//   ) {
-//     valuesToUpdate.push("CLOUD_SERVICES_TOKEN_URL");
-//   }
-
-//   if (valuesToUpdate.length) {
-//     window.alert(
-//       [
-//         "Please update the following values in your editor config",
-//         "to receive full access to Premium Features:",
-//         "",
-//         ...valuesToUpdate.map((value) => ` - ${value}`),
-//       ].join("\n")
-//     );
-//   }
-// }

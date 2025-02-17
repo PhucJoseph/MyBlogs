@@ -4,27 +4,27 @@ import toast from "react-hot-toast";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-// import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import "./Navbar.css"; // Import your CSS file
 
 const drawerWidth = 240;
 
 export default function DrawerAppBar(props) {
   const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [navItems, setNavItems] = useState([]);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -36,6 +36,10 @@ export default function DrawerAppBar(props) {
   const fetchData = async () => {
     try {
       let result = await getAllTypeOfBlogs();
+      const token = localStorage.getItem("token");
+      if (token !== null) {
+        result.push({ id: "0", name: "Create post", url: "create-post" });
+      }
       setNavItems(result);
     } catch (error) {
       toast.error("OOPS, Có lỗi rồi 〒▽〒");
@@ -77,7 +81,10 @@ export default function DrawerAppBar(props) {
             key={item.id}
             disablePadding
           >
-            <ListItemButton sx={{ textAlign: "center" }}>
+            <ListItemButton
+              sx={{ textAlign: "center" }}
+              className={location.pathname === "/" + item.url ? "active ListItemButton" : "ListItemButton"}
+            >
               <Typography sx={{ color: "white", fontFamily: "Merienda" }}>
                 {item.name}
               </Typography>
@@ -99,6 +106,7 @@ export default function DrawerAppBar(props) {
             color="inherit"
             aria-label="open drawer"
             edge="start"
+            className="Button"
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: "none" } }}
           >
@@ -121,6 +129,7 @@ export default function DrawerAppBar(props) {
                 onClick={() => handleNavigate(item.url)}
                 key={item.id}
                 sx={{ color: "#fff", fontFamily: "Merienda" }}
+                className={location.pathname === "/" + item.url ? "active Button" : "Button"}
               >
                 {item.name}
               </Button>
