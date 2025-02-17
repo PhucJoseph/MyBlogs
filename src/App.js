@@ -15,6 +15,7 @@ import Loading from "./components/Loading";
 const HomePage = lazy(() => import("./pages/Home"));
 const BlogId = lazy(() => import("./pages/BlogId"));
 const Login = lazy(() => import("./pages/Auth"));
+const CreatePost = lazy(() => import("./pages/CreatePost"));
 
 function App() {
   const navigate = useNavigate();
@@ -72,6 +73,14 @@ function App() {
               </Suspense>
             }
             path="/:id"
+          />
+          <Route
+            element={
+              <Suspense fallback={<Loading />}>
+                <CreatePost />
+              </Suspense>
+            }
+            path="/create-post"
           />
         </Route>
       </Route>

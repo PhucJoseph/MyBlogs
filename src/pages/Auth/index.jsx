@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import CardCover from "../../components/Card";
-import { Stack, Typography, TextField, Button, Grid } from "@mui/material";
+import { Stack, Typography, TextField, Button, Grid2 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
@@ -54,7 +54,7 @@ export default function Login() {
   };
 
   return (
-    <Grid
+    <Grid2
       container
       sx={{
         width: "100%",
@@ -65,7 +65,7 @@ export default function Login() {
         justifyContent: "center",
       }}
     >
-      <Grid item sx={{ height: "400px", minWidth: "450px", width: "35vw" }}>
+      <Grid2 item sx={{ height: "400px", minWidth: "450px", width: "35vw" }}>
         <CardCover>
           <Stack sx={{ padding: "20px" }} alignItems={"center"} gap={2}>
             <Typography variant="h5">Đăng Nhập</Typography>
@@ -150,7 +150,7 @@ export default function Login() {
             </Button>
           </Stack>
         </CardCover>
-      </Grid>
-    </Grid>
+      </Grid2>
+    </Grid2>
   );
 }

@@ -1,8 +1,5 @@
 import React from "react";
-import { db } from "../../firebase/firebase";
-import { query, where, getDocs, collection } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import TextEditor from "../../components/TextEditor";
 import { getAllBlogs } from "../../firebase/Blogs/blogs";
 import CardCover from "../../components/Card";
 import { Grid2, Stack, Typography, Divider } from "@mui/material";
@@ -15,20 +12,6 @@ function HomePage() {
     setData(resData);
   };
   React.useEffect(() => {
-    // const addUser = async () => {
-    //   try {
-    //     const docRef = await addDoc(collection(db, "blogs"), {
-    //       name: "Alice Smith",
-    //       age: 25,
-    //       email: "alice@example.com",
-    //     });
-    //     //console.log("Document written with ID: ", docRef.id);
-    //   } catch (e) {
-    //     console.error("Error adding document: ", e);
-    //   }
-    // };
-    // addUser();
-
     fetchBlogs();
   }, []);
 
@@ -52,6 +35,7 @@ function HomePage() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        width: "100%",
       }}
     >
       <Grid2
@@ -59,14 +43,17 @@ function HomePage() {
         xs={12}
         md={12}
         sx={{
+          width: "77vw",
           minWidth: "400px",
-          width: "80vw",
-          height: "100%",
           flexWrap: "wrap",
           padding: "20px",
           paddingTop: "40px",
+          paddingBottom:'50px',
           display: "flex",
-          justifyContent: "space-around",
+          justifyContent: "flex-start;",
+          alignItems: "flex-start",
+          gap: 4,
+          margin: "auto",
         }}
       >
         {data.map((item) => (
