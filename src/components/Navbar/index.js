@@ -108,7 +108,7 @@ export default function DrawerAppBar(props) {
             edge="start"
             className="Button"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+            sx={{ mr: 2, display: { md: "none" } }}
           >
             <MenuIcon />
           </IconButton>
@@ -117,13 +117,13 @@ export default function DrawerAppBar(props) {
             component="div"
             sx={{
               flexGrow: 1,
-              display: { xs: "none", sm: "block" },
+              display: { xs: "none", md: "block" },
               fontFamily: "Old Standard TT",
             }}
           >
             PhucJoseph
           </Typography>
-          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+          <Box sx={{ display: { xs: "none", md: "block" } }}>
             {navItems.map((item) => (
               <Button
                 onClick={() => handleNavigate(item.url)}

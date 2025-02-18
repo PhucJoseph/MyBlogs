@@ -25,3 +25,19 @@ export async function convertImageToBase64(file) {
     throw error;
   }
 }
+
+export function formatDate(timestamp) {
+  if (!timestamp || !timestamp.seconds) {
+      return "Invalid date"; // Handle the case where timestamp is undefined
+  }
+
+  const milliseconds = timestamp.seconds * 1000 + (timestamp.nanoseconds || 0) / 1_000_000;
+  const date = new Date(milliseconds);
+
+  // Format to dd/MM/yyyy
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+}

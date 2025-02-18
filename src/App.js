@@ -72,7 +72,7 @@ function App() {
                 <BlogId />
               </Suspense>
             }
-            path="/:id"
+            path="/:type/:id"
           />
           <Route
             element={

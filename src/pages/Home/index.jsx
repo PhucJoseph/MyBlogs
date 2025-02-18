@@ -45,6 +45,7 @@ function HomePage() {
         sx={{
           width: "77vw",
           minWidth: "400px",
+          height: "calc(100vh - 70px)", 
           flexWrap: "wrap",
           padding: "20px",
           paddingTop: "40px",
@@ -53,7 +54,7 @@ function HomePage() {
           justifyContent: "flex-start;",
           alignItems: "flex-start",
           gap: 4,
-          margin: "auto",
+
         }}
       >
         {data.map((item) => (
