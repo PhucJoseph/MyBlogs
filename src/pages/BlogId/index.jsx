@@ -2,13 +2,14 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../../firebase/firebase";
 import { getDoc, doc } from "firebase/firestore";
-import { Stack, Typography, TextField, IconButton, Grid2 } from "@mui/material";
+import { Typography, IconButton, Grid2 } from "@mui/material";
 import { formatDate } from "../../utils/helper";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import { useEffect, useState } from "react";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import DOMPurify from "dompurify";
 
 export default function BlogId() {
   const param = useParams();
@@ -38,8 +39,7 @@ export default function BlogId() {
   };
 
   React.useEffect(() => {
-    setPreviousPath((prev) => location.pathname !== prev ? prev : null);
-  
+    setPreviousPath((prev) => (location.pathname !== prev ? prev : null));
 
     fetchUsers();
   }, [param.id, location.pathname]);
@@ -55,17 +55,22 @@ export default function BlogId() {
         alignItems: "center",
       }}
     >
-      <IconButton onClick={() => handleGoBack()} sx={{marginTop:'5px', position:'absolute' , left:'1%'}}><KeyboardDoubleArrowLeftIcon/></IconButton>
+      <IconButton
+        onClick={() => handleGoBack()}
+        sx={{ marginTop: "5px", position: "absolute", left: "1%" }}
+      >
+        <KeyboardDoubleArrowLeftIcon />
+      </IconButton>
       <Grid2
         item
         sx={{
           height: "auto",
           minWidth: "450px",
-          width: "50vw",
+          width: "80vw",
           backgroundColor: "white",
           marginTop: "50px",
           borderRadius: "10px",
-          padding:'30px'
+          padding: "30px",
         }}
       >
         <Typography variant="h5" sx={{ fontFamily: "Merienda" }}>
@@ -74,18 +79,28 @@ export default function BlogId() {
 
         <Typography
           variant="body2"
-          sx={{ display: "flex", alignItems: "center", fontFamily: "Merienda", gap: 1, marginTop: 2 }}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            fontFamily: "Merienda",
+            gap: 1,
+            marginTop: 2,
+          }}
         >
-          <AccessTimeIcon sx={{fontSize:'20px'}} />
+          <AccessTimeIcon sx={{ fontSize: "20px" }} />
           {formatDate(data.date)}
-          <LocalOfferIcon sx={{fontSize:'18px'}}  />
+          <LocalOfferIcon sx={{ fontSize: "18px" }} />
           {data.type}
         </Typography>
 
         <Typography variant="body1" sx={{ fontFamily: "Merienda" }}>
-          <div dangerouslySetInnerHTML={{ __html: data.content }} />
+          <div
+          
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(data.content),
+            }}
+          />
         </Typography>
-        
       </Grid2>
     </Grid2>
   );

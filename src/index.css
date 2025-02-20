@@ -1,3 +1,4 @@
+
 :root {
   --primary-color: #ffd56cce;
   --secondary-color: #6C95FF;
@@ -52,4 +53,21 @@ code {
 
 #root .ql-editor {
   min-height: 18em;
+}
+
+.blog-content figure img {
+  width: auto !important; /* Keeps CKEditor styles */
+  max-width: none !important;
+}
+
+.blog-content img {
+  max-width: 100%; /* Ensures responsiveness */
+  height: auto;
+}
+
+.ck-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }

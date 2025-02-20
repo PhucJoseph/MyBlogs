@@ -1,4 +1,6 @@
 import toast from "react-hot-toast";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {storage} from "../firebase/firebase";
 
 export async function convertImageToBase64(file) {
   const getBase64 = (file) => {
@@ -40,4 +42,15 @@ export function formatDate(timestamp) {
   const year = date.getFullYear();
 
   return `${day}/${month}/${year}`;
+}
+
+export function isMoreThanThreeDaysAgo(inputSeconds) {
+  const inputDate = new Date(inputSeconds * 1000); // Convert seconds to milliseconds
+  const currentDate = new Date();
+  
+  // Calculate the difference in days
+  const diffInTime = currentDate - inputDate;
+  const diffInDays = diffInTime / (1000 * 60 * 60 * 24);
+
+  return diffInDays > 0.00001;
 }

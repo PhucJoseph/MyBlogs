@@ -2,7 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllBlogs } from "../../firebase/Blogs/blogs";
 import CardCover from "../../components/Card";
-import { Grid2, Stack, Typography, Divider } from "@mui/material";
+import { Grid2, Stack, Typography, Divider, Chip } from "@mui/material";
+import { isMoreThanThreeDaysAgo } from "../../utils/helper";
 
 function HomePage() {
   const [data, setData] = React.useState([]);
@@ -45,16 +46,15 @@ function HomePage() {
         sx={{
           width: "77vw",
           minWidth: "400px",
-          height: "calc(100vh - 70px)", 
+          height: "calc(100vh - 70px)",
           flexWrap: "wrap",
           padding: "20px",
           paddingTop: "40px",
-          paddingBottom:'50px',
+          paddingBottom: "50px",
           display: "flex",
           justifyContent: "flex-start;",
           alignItems: "flex-start",
           gap: 4,
-
         }}
       >
         {data.map((item) => (
@@ -64,12 +64,26 @@ function HomePage() {
             item
             xs={3}
             md={3}
-            sx={{ height: "220px", width: "350px", cursor: "pointer" }}
+            sx={{ height: "240px", width: "350px", cursor: "pointer" }}
           >
             <CardCover>
+              {isMoreThanThreeDaysAgo(item.date.seconds) && (
+                <Chip
+                  label="Mới"
+                  sx={{
+                    position: "absolute",
+                    backgroundColor: "var(--toast-error-text)",
+                    color: "white",
+                    right:'1%',
+                    top:'3%',
+                  }}
+                />
+              )}
               <Stack
                 sx={{
                   padding: "10px",
+                  display: "flex",
+                  gap: "2px",
                 }}
               >
                 <img
@@ -83,12 +97,21 @@ function HomePage() {
                   }}
                 />
                 <Divider sx={{ marginBottom: "5px" }} />
-                <Typography sx={{ fontFamily: "Merienda" }}>
+                <Typography
+                  sx={{ fontFamily: "Merienda", textDecoration: "underline" }}
+                >
                   {item.title}
                 </Typography>
-                <Typography sx={{ fontFamily: "Merienda" }}>
-                  {item.type}
-                </Typography>
+                <Chip
+                  sx={{
+                    fontFamily: "Merienda",
+                    width: "100px",
+                    flexGrow: 0,
+                    backgroundColor: "var(--text-color)",
+                    color: "var(--white)",
+                  }}
+                  label={`${item.type}`}
+                />
               </Stack>
             </CardCover>
           </Grid2>

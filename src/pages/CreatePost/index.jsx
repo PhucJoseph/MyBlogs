@@ -2,7 +2,6 @@ import React from "react";
 import {
   MenuItem,
   Select,
-  Grid,
   Stack,
   TextField,
   Typography,
@@ -197,6 +196,7 @@ export default function CreatePost() {
                 <Button
                   type="submit"
                   variant="contained"
+                  loading={loading}
                   sx={{
                     marginTop: "10px",
                     float: "right",
