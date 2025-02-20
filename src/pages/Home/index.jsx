@@ -1,17 +1,25 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllBlogs } from "../../firebase/Blogs/blogs";
+import { getAllBlogs, deleteDocument } from "../../firebase/Blogs/blogs";
 import CardCover from "../../components/Card";
 import { Grid2, Stack, Typography, Divider, Chip } from "@mui/material";
 import { isMoreThanThreeDaysAgo } from "../../utils/helper";
+import usePermission from "../../hooks/usePermission";
+import MenuComponent from "../../components/Menu";
+import CreateIcon from "@mui/icons-material/Create";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import toast from "react-hot-toast";
 
 function HomePage() {
   const [data, setData] = React.useState([]);
+  const permit = usePermission();
   let navigate = useNavigate();
+
   const fetchBlogs = async () => {
     const resData = await getAllBlogs();
     setData(resData);
   };
+
   React.useEffect(() => {
     fetchBlogs();
   }, []);
@@ -20,11 +28,30 @@ function HomePage() {
     let path = "";
     if (type === "Daily life") {
       path = "/daily-life/" + id;
+    } else {
+      path = "/" + String(type).toLowerCase() + "/" + id;
     }
-    path = "/" + String(type).toLowerCase() + "/" + id;
-
     navigate(path);
   };
+
+  const handleDeletePost = async (id) => {
+    const res = await deleteDocument(id);
+    if (res.success) {
+      fetchBlogs();
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
+    }
+  };
+
+  const handleEditPost = (id) => {
+    navigate(`/edit-post/${id}`);
+  };
+
+  const options = [
+    { name: "Chỉnh sửa", icon: <CreateIcon />, action: handleEditPost },
+    { name: "Xóa", icon: <DeleteForeverIcon />, action: handleDeletePost },
+  ];
 
   return (
     <Grid2
@@ -52,7 +79,7 @@ function HomePage() {
           paddingTop: "40px",
           paddingBottom: "50px",
           display: "flex",
-          justifyContent: "flex-start;",
+          justifyContent: "flex-start",
           alignItems: "flex-start",
           gap: 4,
         }}
@@ -67,18 +94,7 @@ function HomePage() {
             sx={{ height: "240px", width: "350px", cursor: "pointer" }}
           >
             <CardCover>
-              {isMoreThanThreeDaysAgo(item.date.seconds) && (
-                <Chip
-                  label="Mới"
-                  sx={{
-                    position: "absolute",
-                    backgroundColor: "var(--toast-error-text)",
-                    color: "white",
-                    right:'1%',
-                    top:'3%',
-                  }}
-                />
-              )}
+              {permit && <MenuComponent idPost={item.id} options={options} />}
               <Stack
                 sx={{
                   padding: "10px",
@@ -98,9 +114,24 @@ function HomePage() {
                 />
                 <Divider sx={{ marginBottom: "5px" }} />
                 <Typography
-                  sx={{ fontFamily: "Merienda", textDecoration: "underline" }}
+                  sx={{
+                    fontFamily: "Merienda",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                  }}
                 >
                   {item.title}
+                  {isMoreThanThreeDaysAgo(item.date.seconds) && (
+                    <Chip
+                      label="Mới"
+                      sx={{
+                        backgroundColor: "var(--toast-error-text)",
+                        color: "white",
+                        textDecoration: "none",
+                      }}
+                    />
+                  )}
                 </Typography>
                 <Chip
                   sx={{

@@ -1,7 +1,5 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { db } from "../../firebase/firebase";
-import { getDoc, doc } from "firebase/firestore";
 import { Typography, IconButton, Grid2 } from "@mui/material";
 import { formatDate } from "../../utils/helper";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -10,6 +8,7 @@ import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrow
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import DOMPurify from "dompurify";
+import { getBlogById } from "../../firebase/Blogs/blogs";
 
 export default function BlogId() {
   const param = useParams();
@@ -18,13 +17,10 @@ export default function BlogId() {
   const location = useLocation();
   const [previousPath, setPreviousPath] = useState(null);
 
-  const fetchUsers = async () => {
-    const docRef = doc(db, "blogs", param.id);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      const datas = { id: docSnap.id, ...docSnap.data() };
-      setData(datas);
+  const fetchData = async () => {
+    const data = await getBlogById(param.id);
+    if (data) {
+      setData(data);
     } else {
       console.log("No such document!");
     }
@@ -41,7 +37,7 @@ export default function BlogId() {
   React.useEffect(() => {
     setPreviousPath((prev) => (location.pathname !== prev ? prev : null));
 
-    fetchUsers();
+    fetchData();
   }, [param.id, location.pathname]);
 
   return (
@@ -95,7 +91,6 @@ export default function BlogId() {
 
         <Typography variant="body1" sx={{ fontFamily: "Merienda" }}>
           <div
-          
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(data.content),
             }}

@@ -16,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Navbar.css"; // Import your CSS file
+import usePermission from "../../hooks/usePermission";
 
 const drawerWidth = 240;
 
@@ -25,6 +26,7 @@ export default function DrawerAppBar(props) {
   const [navItems, setNavItems] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
+  const permit = usePermission();
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -36,8 +38,7 @@ export default function DrawerAppBar(props) {
   const fetchData = async () => {
     try {
       let result = await getAllTypeOfBlogs();
-      const token = localStorage.getItem("token");
-      if (token !== null) {
+      if (permit) {
         result.push({ id: "0", name: "Create post", url: "create-post" });
       }
       setNavItems(result);

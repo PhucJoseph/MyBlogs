@@ -81,7 +81,7 @@ import "./Editor.css";
 const LICENSE_KEY =
   "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDA1Mjc5OTksImp0aSI6ImQ3OWE0YWRmLTBlY2ItNGQ1YS05MmEzLWI4YjYyNTBjZmVhZiIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjNjY2M4Y2I1In0.4ada7CZlkiW0xarazIcV7zYPMrXTbV9B6Sq3wmC-ZML3ElcxfmVHdD41vLgElYfRqhF8PC5ug0F9bRPI4Hr9Wg";
 
-export default function Editor({ setContent }) {
+export default function Editor({ setContent, content }) {
   const editorContainerRef = useRef(null);
   const editorRef = useRef(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
@@ -178,15 +178,15 @@ export default function Editor({ setContent }) {
           HtmlComment,
           HtmlEmbed,
           ImageBlock,
-          // ImageCaption,
-          // ImageInline,
-          // ImageInsert,
-          // ImageInsertViaUrl,
-          // ImageResize,
-          // ImageStyle,
-          // ImageTextAlternative,
-          // ImageToolbar,
-          //ImageUpload,
+          ImageCaption,
+          ImageInline,
+          ImageInsert,
+          ImageInsertViaUrl,
+          ImageResize,
+          ImageStyle,
+          ImageTextAlternative,
+          ImageToolbar,
+          ImageUpload,
           Indent,
           IndentBlock,
           Italic,
@@ -288,18 +288,18 @@ export default function Editor({ setContent }) {
             },
           ],
         },
-        // image: {
-        //   toolbar: [
-        //     "toggleImageCaption",
-        //     "imageTextAlternative",
-        //     "|",
-        //     "imageStyle:inline",
-        //     "imageStyle:wrapText",
-        //     "imageStyle:breakText",
-        //     "|",
-        //     "resizeImage",
-        //   ],
-        // },
+        image: {
+          toolbar: [
+            "toggleImageCaption",
+            "imageTextAlternative",
+            "|",
+            "imageStyle:inline",
+            "imageStyle:wrapText",
+            "imageStyle:breakText",
+            "|",
+            "resizeImage",
+          ],
+        },
         licenseKey: LICENSE_KEY,
         link: {
           addTargetToExternalLinks: true,
@@ -357,6 +357,7 @@ export default function Editor({ setContent }) {
               <CKEditor
                 editor={ClassicEditor}
                 config={editorConfig}
+                data={content}
                 onChange={(event, editor) => {
                   setContent(editor.getData()); // Store content as HTML
                 }}
