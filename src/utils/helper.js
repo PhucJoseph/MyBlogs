@@ -1,4 +1,6 @@
 import toast from "react-hot-toast";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {storage} from "../firebase/firebase";
 
 export async function convertImageToBase64(file) {
   const getBase64 = (file) => {
