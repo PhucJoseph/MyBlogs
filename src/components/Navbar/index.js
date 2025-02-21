@@ -35,21 +35,21 @@ export default function DrawerAppBar(props) {
     navigate("/" + path);
   };
 
-  const fetchData = async () => {
-    try {
-      let result = await getAllTypeOfBlogs();
-      if (permit) {
-        result.push({ id: "0", name: "Create post", url: "create-post" });
-      }
-      setNavItems(result);
-    } catch (error) {
-      toast.error("OOPS, Có lỗi rồi 〒▽〒");
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let result = await getAllTypeOfBlogs();
+        if (permit) {
+          result.push({ id: "0", name: "Create post", url: "create-post" });
+        }
+        setNavItems(result);
+      } catch (error) {
+        toast.error("OOPS, Có lỗi rồi 〒▽〒");
+      }
+    };
+
     fetchData();
-  }, [fetchData]);
+  }, [permit]);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
