@@ -69,7 +69,7 @@ export default function EditPost() {
       fetchDataById(param.id);
     }
     fetchData();
-  }, [param.id]);
+  }, [param.id, methods]);
 
   const onSubmit = async (data) => {
     setLoading(true);
