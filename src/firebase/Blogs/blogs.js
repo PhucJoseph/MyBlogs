@@ -1,6 +1,6 @@
 // import React from "react"
 // import { auth } from "../firebase"
-import { query, doc ,getDocs, collection, addDoc, deleteDoc, updateDoc, getDoc } from "firebase/firestore";
+import { query, doc ,getDocs, collection, addDoc, deleteDoc, updateDoc, getDoc, where } from "firebase/firestore";
 import { db } from "../firebase";
 
 export const getAllTypeOfBlogs = async () => {
@@ -30,6 +30,16 @@ export const getAllBlogs = async () => {
       console.log("No such document!");
     }
   };
+
+  
+export const getBlogByTab = async (tab) => {
+  const q = query(collection(db, "blogs"), where("type", "==", tab));
+  const querySnapshot = await getDocs(q);
+  const data = [];
+  querySnapshot.forEach((doc) => data.push({ id: doc.id, ...doc.data() }));
+  return data
+}
+
 
 export const addBlog = async (params) => {
       try {

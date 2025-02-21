@@ -12,7 +12,7 @@ import Navbar from "./components/Navbar";
 import CustomToaster from "./components/Toast";
 import Loading from "./components/Loading";
 
-const HomePage = lazy(() => import("./pages/Home"));
+const HomePage = lazy(() => import("./pages/TypeOfBlog"));
 const BlogId = lazy(() => import("./pages/BlogId"));
 const Login = lazy(() => import("./pages/Auth"));
 const CreatePost = lazy(() => import("./pages/CreatePost"));
@@ -65,7 +65,7 @@ function App() {
                 <HomePage />
               </Suspense>
             }
-            path="/home-page"
+            path="/:type"
           />
           <Route
             element={

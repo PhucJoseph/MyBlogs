@@ -1,6 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllBlogs, deleteDocument } from "../../firebase/Blogs/blogs";
+import {
+  getAllBlogs,
+  deleteDocument,
+  getBlogByTab,
+} from "../../firebase/Blogs/blogs";
 import CardCover from "../../components/Card";
 import { Grid2, Stack, Typography, Divider, Chip } from "@mui/material";
 import { isMoreThanThreeDaysAgo } from "../../utils/helper";
@@ -9,20 +13,38 @@ import MenuComponent from "../../components/Menu";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
+
+const tab = {
+  "home-page": "home",
+  sharing: "Sharing",
+  cooking: "Cooking",
+  health: "Health",
+  "daily-life": "Daily life",
+};
 
 function HomePage() {
   const [data, setData] = React.useState([]);
   const permit = usePermission();
   let navigate = useNavigate();
 
+  const tabName = useParams();
+  const param = tab[tabName.type];
+  console.log(param);
+
   const fetchBlogs = async () => {
-    const resData = await getAllBlogs();
-    setData(resData);
+    if (param !== "home") {
+      const data = await getBlogByTab(param);
+      setData(data);
+    } else {
+      const resData = await getAllBlogs();
+      setData(resData);
+    }
   };
 
   React.useEffect(() => {
     fetchBlogs();
-  }, []);
+  }, [tabName]);
 
   const handleNavigate = (type, id) => {
     let path = "";
