@@ -6,7 +6,7 @@ import { getStorage } from "firebase/storage";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBS6a6HgF3PlnKqs2Ay2MnGAPMCABQHGGw",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "blogwebsite-f55aa.firebaseapp.com",
   databaseURL: "https://blogwebsite-f55aa-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "blogwebsite-f55aa",
