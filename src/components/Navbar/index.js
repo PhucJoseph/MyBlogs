@@ -49,7 +49,7 @@ export default function DrawerAppBar(props) {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
