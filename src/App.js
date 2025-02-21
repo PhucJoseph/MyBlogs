@@ -16,6 +16,7 @@ const HomePage = lazy(() => import("./pages/Home"));
 const BlogId = lazy(() => import("./pages/BlogId"));
 const Login = lazy(() => import("./pages/Auth"));
 const CreatePost = lazy(() => import("./pages/CreatePost"));
+const EditPost = lazy(() => import("./pages/EditPost"));
 
 function App() {
   const navigate = useNavigate();
@@ -72,7 +73,7 @@ function App() {
                 <BlogId />
               </Suspense>
             }
-            path="/:id"
+            path="/:type/:id"
           />
           <Route
             element={
@@ -81,6 +82,14 @@ function App() {
               </Suspense>
             }
             path="/create-post"
+          />
+          <Route
+            element={
+              <Suspense fallback={<Loading />}>
+                <EditPost />
+              </Suspense>
+            }
+            path="/edit-post/:id"
           />
         </Route>
       </Route>
