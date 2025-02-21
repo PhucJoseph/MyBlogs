@@ -1,0 +1,9 @@
+.active {
+  background-color: #1c2e66; /* Change to your desired active background color */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.ListItemButton,
+.Button {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

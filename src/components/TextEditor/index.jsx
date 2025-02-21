@@ -10,8 +10,6 @@ import {
   BlockQuote,
   Bold,
   Bookmark,
-  CKBox,
-  CloudServices,
   Code,
   CodeBlock,
   Essentials,
@@ -51,9 +49,9 @@ import {
   Paragraph,
   PasteFromMarkdownExperimental,
   PasteFromOffice,
-  PictureEditing,
   RemoveFormat,
   ShowBlocks,
+  SimpleUploadAdapter,
   SourceEditing,
   SpecialCharacters,
   SpecialCharactersArrows,
@@ -71,15 +69,10 @@ import {
   TableColumnResize,
   TableProperties,
   TableToolbar,
-  TextPartLanguage,
   TextTransformation,
-  Title,
   TodoList,
   Underline,
-  WordCount,
 } from "ckeditor5";
-
-import translations from "ckeditor5/translations/vi.js";
 
 import "ckeditor5/ckeditor5.css";
 
@@ -88,26 +81,16 @@ import "./Editor.css";
 const LICENSE_KEY =
   "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDA1Mjc5OTksImp0aSI6ImQ3OWE0YWRmLTBlY2ItNGQ1YS05MmEzLWI4YjYyNTBjZmVhZiIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjNjY2M4Y2I1In0.4ada7CZlkiW0xarazIcV7zYPMrXTbV9B6Sq3wmC-ZML3ElcxfmVHdD41vLgElYfRqhF8PC5ug0F9bRPI4Hr9Wg";
 
-const CLOUD_SERVICES_TOKEN_URL =
-  "https://buibhoo0eea9.cke-cs.com/token/dev/269e3e816260c873306e728732e875df4ffb70614c3338e2d11fe21d809c?limit=10";
-
-export default function Editor() {
+export default function Editor({ setContent, content }) {
   const editorContainerRef = useRef(null);
   const editorRef = useRef(null);
-  const editorWordCountRef = useRef(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
-  const editorMenuBarRef = useRef(null);
-  const [editorData, setEditorData] = useState("");
 
   useEffect(() => {
     setIsLayoutReady(true);
 
     return () => setIsLayoutReady(false);
   }, []);
-
-  const handleSave = async () => {
-    console.log(editorData);
-  };
 
   const { editorConfig } = useMemo(() => {
     if (!isLayoutReady) {
@@ -120,6 +103,7 @@ export default function Editor() {
           items: [
             "sourceEditing",
             "showBlocks",
+            "findAndReplace",
             "|",
             "heading",
             "|",
@@ -131,13 +115,24 @@ export default function Editor() {
             "bold",
             "italic",
             "underline",
+            "strikethrough",
+            "subscript",
+            "superscript",
+            "code",
+            "removeFormat",
             "|",
+            "specialCharacters",
+            "horizontalLine",
+            "pageBreak",
             "link",
+            "bookmark",
             "insertImage",
+            "mediaEmbed",
             "insertTable",
             "highlight",
             "blockQuote",
             "codeBlock",
+            "htmlEmbed",
             "|",
             "alignment",
             "|",
@@ -146,6 +141,15 @@ export default function Editor() {
             "todoList",
             "outdent",
             "indent",
+            "|",
+            "toggleImageCaption",
+            "imageTextAlternative",
+            "|",
+            "imageStyle:inline",
+            "imageStyle:wrapText",
+            "imageStyle:breakText",
+            "|",
+            "resizeImage",
           ],
           shouldNotGroupWhenFull: false,
         },
@@ -158,8 +162,6 @@ export default function Editor() {
           BlockQuote,
           Bold,
           Bookmark,
-          CKBox,
-          CloudServices,
           Code,
           CodeBlock,
           Essentials,
@@ -199,9 +201,9 @@ export default function Editor() {
           Paragraph,
           PasteFromMarkdownExperimental,
           PasteFromOffice,
-          PictureEditing,
           RemoveFormat,
           ShowBlocks,
+          SimpleUploadAdapter,
           SourceEditing,
           SpecialCharacters,
           SpecialCharactersArrows,
@@ -219,16 +221,10 @@ export default function Editor() {
           TableColumnResize,
           TableProperties,
           TableToolbar,
-          TextPartLanguage,
           TextTransformation,
-          Title,
           TodoList,
           Underline,
-          WordCount,
         ],
-        cloudServices: {
-          tokenUrl: CLOUD_SERVICES_TOKEN_URL,
-        },
         fontFamily: {
           supportAllValues: true,
         },
@@ -236,6 +232,7 @@ export default function Editor() {
           options: [10, 12, 14, "default", 18, 20, 22],
           supportAllValues: true,
         },
+
         heading: {
           options: [
             {
@@ -303,7 +300,6 @@ export default function Editor() {
             "resizeImage",
           ],
         },
-        language: "vi",
         licenseKey: LICENSE_KEY,
         link: {
           addTargetToExternalLinks: true,
@@ -335,9 +331,6 @@ export default function Editor() {
             },
           ],
         },
-        menuBar: {
-          isVisible: true,
-        },
         placeholder: "Type or paste your content here!",
         table: {
           contentToolbar: [
@@ -348,108 +341,31 @@ export default function Editor() {
             "tableCellProperties",
           ],
         },
-        translations: [translations],
       },
     };
   }, [isLayoutReady]);
 
-  // useEffect(() => {
-  //   if (editorConfig) {
-  //     configUpdateAlert(editorConfig);
-  //   }
-  // }, [editorConfig]);
-
   return (
     <div className="main-container">
       <div
-        className="editor-container editor-container_classic-editor editor-container_include-word-count"
+        className="editor-container editor-container_classic-editor"
         ref={editorContainerRef}
       >
         <div className="editor-container__editor">
           <div ref={editorRef}>
             {editorConfig && (
               <CKEditor
-                onReady={(editor) => {
-                  const wordCount = editor.plugins.get("WordCount");
-                  editorWordCountRef.current.appendChild(
-                    wordCount.wordCountContainer
-                  );
-
-                  editorMenuBarRef.current.appendChild(
-                    editor.ui.view.menuBarView.element
-                  );
-                }}
-                onAfterDestroy={() => {
-                  Array.from(editorWordCountRef.current.children).forEach(
-                    (child) => child.remove()
-                  );
-
-                  Array.from(editorMenuBarRef.current.children).forEach(
-                    (child) => child.remove()
-                  );
-                }}
                 editor={ClassicEditor}
                 config={editorConfig}
+                data={content}
                 onChange={(event, editor) => {
-                  setEditorData(editor.getData()); // Store content as HTML
+                  setContent(editor.getData()); // Store content as HTML
                 }}
               />
             )}
           </div>
         </div>
-        <button onClick={handleSave}>Save</button>
-        <div
-          className="editor_container__word-count"
-          ref={editorWordCountRef}
-        ></div>
       </div>
-      {/* <div dangerouslySetInnerHTML={{ __html: editorData }} /> */}
     </div>
   );
 }
-
-/**
- * This function exists to remind you to update the config needed for premium features.
- * The function can be safely removed. Make sure to also remove call to this function when doing so.
- */
-// function configUpdateAlert(config) {
-//   if (configUpdateAlert.configUpdateAlertShown) {
-//     return;
-//   }
-
-//   const isModifiedByUser = (currentValue, forbiddenValue) => {
-//     if (currentValue === forbiddenValue) {
-//       return false;
-//     }
-
-//     if (currentValue === undefined) {
-//       return false;
-//     }
-
-//     return true;
-//   };
-
-//   const valuesToUpdate = [];
-
-//   configUpdateAlert.configUpdateAlertShown = true;
-
-//   if (
-//     !isModifiedByUser(
-//       config.cloudServices?.tokenUrl,
-//       "<YOUR_CLOUD_SERVICES_TOKEN_URL>"
-//     )
-//   ) {
-//     valuesToUpdate.push("CLOUD_SERVICES_TOKEN_URL");
-//   }
-
-//   if (valuesToUpdate.length) {
-//     window.alert(
-//       [
-//         "Please update the following values in your editor config",
-//         "to receive full access to Premium Features:",
-//         "",
-//         ...valuesToUpdate.map((value) => ` - ${value}`),
-//       ].join("\n")
-//     );
-//   }
-// }

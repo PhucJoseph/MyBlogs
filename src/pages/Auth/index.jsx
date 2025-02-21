@@ -1,26 +1,20 @@
 import React, { useState } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
-import SnackBarComponent from "../../components/SnackBar";
 import CardCover from "../../components/Card";
-import { Stack, Typography, TextField, Button, Grid } from "@mui/material";
+import { Stack, Typography, TextField, Button, Grid2 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import { signIn, loginAsGuest } from "../../firebase/Auth/authentication";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const methods = useForm();
-  const [snackBarOpen, setSnackBarOpen] = useState(false);
-  const [snackBarType, setSnackBarType] = useState(0);
-  const [snackBarMessage, setSnackBarMessage] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
-  const handleSnackBarClose = () => {
-    setSnackBarOpen(false); // Close the snackbar
-  };
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -34,16 +28,13 @@ export default function Login() {
     setLoading(true);
     const result = await signIn(data.email, data.password);
     if (result.success) {
-      setSnackBarType(0); // Set the type of the snackbar (0 for success, 1 for info, etc.)
-      setSnackBarMessage(result.message); // Set the message for the snackbar
-      setSnackBarOpen(true); // Open the snackbar
+      toast.success(result.message);
+
       setTimeout(() => {
         navigate("/home-page");
       }, 1000);
     } else {
-      setSnackBarType(3); // Set the type of the snackbar (0 for success, 1 for info, etc.)
-      setSnackBarMessage(result.message); // Set the message for the snackbar
-      setSnackBarOpen(true); // Open the snackbar
+      toast(result.message);
     }
     setLoading(false);
   };
@@ -52,22 +43,18 @@ export default function Login() {
     setLoading(true);
     const result = await loginAsGuest();
     if (result.success) {
-      setSnackBarType(0); // Set the type of the snackbar (0 for success, 1 for info, etc.)
-      setSnackBarMessage(result.message); // Set the message for the snackbar
-      setSnackBarOpen(true); // Open the snackbar
+      toast.success(result.message);
       setTimeout(() => {
         navigate("/home-page");
       }, 1000);
     } else {
-      setSnackBarType(3); // Set the type of the snackbar (0 for success, 1 for info, etc.)
-      setSnackBarMessage(result.message); // Set the message for the snackbar
-      setSnackBarOpen(true); // Open the snackbar
+      toast.error(result.message);
     }
     setLoading(false);
   };
 
   return (
-    <Grid
+    <Grid2
       container
       sx={{
         width: "100%",
@@ -78,7 +65,7 @@ export default function Login() {
         justifyContent: "center",
       }}
     >
-      <Grid item sx={{ height: "400px", minWidth: "450px", width: "35vw" }}>
+      <Grid2 item sx={{ height: "400px", minWidth: "450px", width: "35vw" }}>
         <CardCover>
           <Stack sx={{ padding: "20px" }} alignItems={"center"} gap={2}>
             <Typography variant="h5">Đăng Nhập</Typography>
@@ -122,7 +109,11 @@ export default function Login() {
                                   onMouseDown={handleMouseDownPassword}
                                   edge="end"
                                 >
-                                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                                  {showPassword ? (
+                                    <VisibilityOff />
+                                  ) : (
+                                    <Visibility />
+                                  )}
                                 </IconButton>
                               </InputAdornment>
                             ),
@@ -159,14 +150,7 @@ export default function Login() {
             </Button>
           </Stack>
         </CardCover>
-      </Grid>
-
-      <SnackBarComponent
-        open={snackBarOpen}
-        type={snackBarType}
-        message={snackBarMessage}
-        onClose={handleSnackBarClose}
-      />
-    </Grid>
+      </Grid2>
+    </Grid2>
   );
 }
