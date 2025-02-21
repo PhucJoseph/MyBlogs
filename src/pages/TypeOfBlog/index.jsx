@@ -32,7 +32,7 @@ function HomePage() {
   const param = tab[tabName.type];
   console.log(param);
 
-  const fetchBlogs = async () => {
+  const fetchBlogs = React.useCallback(async () => {
     if (param !== "home") {
       const data = await getBlogByTab(param);
       setData(data);
@@ -40,11 +40,11 @@ function HomePage() {
       const resData = await getAllBlogs();
       setData(resData);
     }
-  };
+  }, [param]);
 
   React.useEffect(() => {
     fetchBlogs();
-  }, [tabName]);
+  }, [tabName, fetchBlogs]);
 
   const handleNavigate = (type, id) => {
     let path = "";

@@ -47,24 +47,24 @@ export default function EditPost() {
     }
   };
 
-  const fetchDataById = async (id) => {
-    try {
-      const data = await getBlogById(id);
-      console.log(data);
-      if (data) {
-        methods.setValue("title", data.title);
-        methods.setValue("type", data.type);
-        setContent(data.content);
-        setPostThumbnail(data.thumbnail);
-      } else {
-        console.log("No such document!");
-      }
-    } catch (error) {
-      toast.error("Error fetching blog data:", error);
-    }
-  };
-
   React.useEffect(() => {
+    const fetchDataById = async (id) => {
+      try {
+        const data = await getBlogById(id);
+        console.log(data);
+        if (data) {
+          methods.setValue("title", data.title);
+          methods.setValue("type", data.type);
+          setContent(data.content);
+          setPostThumbnail(data.thumbnail);
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        toast.error("Error fetching blog data:", error);
+      }
+    };
+
     if (param.id) {
       fetchDataById(param.id);
     }

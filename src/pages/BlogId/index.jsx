@@ -17,14 +17,14 @@ export default function BlogId() {
   const location = useLocation();
   const [previousPath, setPreviousPath] = useState(null);
 
-  const fetchData = async () => {
+  const fetchData = React.useCallback(async () => {
     const data = await getBlogById(param.id);
     if (data) {
       setData(data);
     } else {
       console.log("No such document!");
     }
-  };
+  }, [param.id]);
 
   const handleGoBack = () => {
     if (previousPath) {
@@ -38,7 +38,7 @@ export default function BlogId() {
     setPreviousPath((prev) => (location.pathname !== prev ? prev : null));
 
     fetchData();
-  }, [param.id, location.pathname]);
+  }, [param.id, location.pathname, fetchData]);
 
   return (
     <Grid2
