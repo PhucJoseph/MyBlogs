@@ -34,7 +34,7 @@ export default function Login() {
         navigate("/home-page");
       }, 1000);
     } else {
-      toast(result.message);
+      toast.error(result.message);
     }
     setLoading(false);
   };
