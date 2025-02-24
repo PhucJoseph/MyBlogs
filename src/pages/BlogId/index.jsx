@@ -17,14 +17,7 @@ export default function BlogId() {
   const location = useLocation();
   const [previousPath, setPreviousPath] = useState(null);
 
-  const fetchData = async () => {
-    const data = await getBlogById(param.id);
-    if (data) {
-      setData(data);
-    } else {
-      console.log("No such document!");
-    }
-  };
+
 
   const handleGoBack = () => {
     if (previousPath) {
@@ -36,7 +29,14 @@ export default function BlogId() {
 
   React.useEffect(() => {
     setPreviousPath((prev) => (location.pathname !== prev ? prev : null));
-
+    const fetchData = async () => {
+      const data = await getBlogById(param.id);
+      if (data) {
+        setData(data);
+      } else {
+        console.log("No such document!");
+      }
+    };
     fetchData();
   }, [param.id, location.pathname]);
 
