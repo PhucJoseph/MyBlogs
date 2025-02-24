@@ -47,7 +47,8 @@ export default function EditPost() {
     }
   };
 
-  const fetchDataById = async (id) => {
+
+  const fetchDataById = React.useCallback(async (id) => {
     try {
       const data = await getBlogById(id);
       console.log(data);
@@ -62,14 +63,14 @@ export default function EditPost() {
     } catch (error) {
       toast.error("Error fetching blog data:", error);
     }
-  };
+  }, [methods]);
 
   React.useEffect(() => {
     if (param.id) {
       fetchDataById(param.id);
     }
     fetchData();
-  }, [param.id, methods]);
+  }, [param.id, fetchDataById]);
 
   const onSubmit = async (data) => {
     setLoading(true);
