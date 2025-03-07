@@ -7,7 +7,11 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import { signIn, loginAsGuest } from "../../firebase/Auth/authentication";
 import { useNavigate } from "react-router-dom";
+import Input from '@mui/material/Input';
+
 import toast from "react-hot-toast";
+
+import "./Auth.css";
 
 export default function Login() {
   const methods = useForm();
@@ -63,12 +67,22 @@ export default function Login() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        background: "linear-gradient( #FFFFFF 0%, #0456CB 100%)",
       }}
     >
-      <Grid2 item sx={{ height: "400px", minWidth: "450px", width: "35vw" }}>
+      <Grid2 item sx={{ height: "30rem", minWidth: "450px", width: "45vw" }}>
         <CardCover>
-          <Stack sx={{ padding: "20px" }} alignItems={"center"} gap={2}>
-            <Typography variant="h5">Đăng Nhập</Typography>
+          <Stack sx={{ padding: "40px" }} alignItems={"center"} gap={2}>
+            <Typography
+              variant="h4"
+              sx={{
+                fontFamily: "Courier Prime",
+                color: "#3670C6",
+                fontWeight: "bold",
+              }}
+            >
+              Sign in
+            </Typography>
             <FormProvider {...methods}>
               <form
                 onSubmit={methods.handleSubmit(onSubmit)}
@@ -76,48 +90,53 @@ export default function Login() {
               >
                 <Stack display={"flex"} gap={2}>
                   <Stack sx={{ width: "100%" }}>
-                    <Typography>Email</Typography>
+                    <Typography sx={{ fontFamily: "Courier Prime" }}>
+                      Email
+                    </Typography>
                     <Controller
                       name="email"
                       control={methods.control}
                       render={({ field }) => (
-                        <TextField
+                        <Input
                           {...field}
                           placeholder="Email"
                           size="small"
+                          sx={{marginTop:'5px'}}
                         />
                       )}
                     />
                   </Stack>
                   <Stack sx={{ width: "100%" }}>
-                    <Typography>Mật khẩu</Typography>
+                    <Typography sx={{ fontFamily: "Courier Prime" }}>
+                      Mật khẩu
+                    </Typography>
                     <Controller
                       name="password"
                       control={methods.control}
                       render={({ field }) => (
-                        <TextField
+                        <Input
                           {...field}
                           placeholder="Mật khẩu"
                           type={showPassword ? "text" : "password"}
                           size="small"
-                          InputProps={{
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <IconButton
-                                  aria-label="toggle password visibility"
-                                  onClick={handleClickShowPassword}
-                                  onMouseDown={handleMouseDownPassword}
-                                  edge="end"
-                                >
-                                  {showPassword ? (
-                                    <VisibilityOff />
-                                  ) : (
-                                    <Visibility />
-                                  )}
-                                </IconButton>
-                              </InputAdornment>
-                            ),
-                          }}
+                          variant="outlined"
+                          sx={{marginTop:'5px'}}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
                         />
                       )}
                     />
@@ -127,26 +146,22 @@ export default function Login() {
                     type="submit"
                     loading={loading}
                     variant="contained"
-                    sx={{
-                      backgroundColor: "rgba(0, 95, 115)",
-                      width: "100%",
-                      marginTop: "10px",
-                    }}
+                    className="button-auth-DN"
                   >
-                    Đăng nhập
+                    Login
                   </Button>
                 </Stack>
               </form>
             </FormProvider>
-            <Typography>Hoặc</Typography>
+            <Typography sx={{ fontFamily: "Courier Prime" }}>Or</Typography>
 
             <Button
               onClick={handleLoginAsGuest}
               loading={loading}
               variant="outlined"
-              sx={{ width: "100%" }}
+              className="button-auth-guest"
             >
-              Đăng nhập với tư cách khách
+              Login as Guest
             </Button>
           </Stack>
         </CardCover>

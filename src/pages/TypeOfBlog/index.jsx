@@ -145,7 +145,7 @@ function HomePage() {
                   {item.title}
                   {isMoreThanThreeDaysAgo(item.date.seconds) && (
                     <Chip
-                      label="Mới"
+                      label="New"
                       sx={{
                         backgroundColor: "var(--toast-error-text)",
                         color: "white",

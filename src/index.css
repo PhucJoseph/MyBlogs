@@ -1,12 +1,15 @@
-
 :root {
-  --primary-color: #ffd56cce;
-  --secondary-color: #6C95FF;
+  --primary-color: #3670c6;
+  --secondary-color: #6c95ff;
   --black: #000000;
   --white: #fefbfb;
-  --text-color: #006073e4; 
+  --text-color: #006073e4;
+  --text-color-blue: #3670C6;
+  --color: #00A97F;
 
-  --toast-error-bg:#fdeded;
+  --button-color-blue: #0457CD;
+
+  --toast-error-bg: #fdeded; 
   --toast-error-text: #5f2120;
 
   --toast-success-bg: #edf7ed;
@@ -14,23 +17,23 @@
 
   --toast-warning-bg: #fff4e5;
   --toast-warning-text: #663c00;
-  
+
   --toast-infor-bg: #e5f6fd;
   --toast-infor-text: #014361;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Merienda'
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    "Merienda", "Courier Prime" sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--primary-color);
+  
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -39,7 +42,6 @@ code {
   border-bottom-right-radius: 0.5em;
   background: #fefcfc;
   color: black;
-
 }
 
 /* Snow Theme */
