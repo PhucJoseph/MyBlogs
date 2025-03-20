@@ -45,6 +45,7 @@ export const loginAsGuest = async () => {
 };
 
 export const logout = async () => {
+
   try {
     await signOut(auth);
     console.log("User signed out");

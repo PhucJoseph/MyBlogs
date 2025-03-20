@@ -14,13 +14,15 @@ import CreateIcon from "@mui/icons-material/Create";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { TAG_COLORS } from "../../constants/const";
 
 const tab = {
   "home-page": "home",
   sharing: "Sharing",
   cooking: "Cooking",
   health: "Health",
-  "daily-life": "Daily life",
+  traveling: "Traveling",
 };
 
 function HomePage() {
@@ -70,8 +72,8 @@ function HomePage() {
   };
 
   const options = [
-    { name: "Chỉnh sửa", icon: <CreateIcon />, action: handleEditPost },
-    { name: "Xóa", icon: <DeleteForeverIcon />, action: handleDeletePost },
+    { name: "Edit", icon: <CreateIcon />, action: handleEditPost },
+    { name: "Delete", icon: <DeleteForeverIcon />, action: handleDeletePost },
   ];
 
   return (
@@ -80,7 +82,7 @@ function HomePage() {
       md={12}
       xs={12}
       sx={{
-        height: "calc(100vh - 70px)",
+        height: "calc(100vh - 116px)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -94,10 +96,10 @@ function HomePage() {
         sx={{
           width: "77vw",
           minWidth: "400px",
-          height: "calc(100vh - 70px)",
+          height: "calc(100vh - 116px)",
           flexWrap: "wrap",
           padding: "20px",
-          paddingTop: "40px",
+          paddingTop: "116px",
           paddingBottom: "50px",
           display: "flex",
           justifyContent: "flex-start",
@@ -115,7 +117,7 @@ function HomePage() {
             sx={{ height: "240px", width: "350px", cursor: "pointer" }}
           >
             <CardCover>
-              {permit && <MenuComponent idPost={item.id} options={options} />}
+              {permit && <MenuComponent idPost={item.id} options={options} iconMenu={<MoreVertIcon />} />}
               <Stack
                 sx={{
                   padding: "10px",
@@ -159,8 +161,8 @@ function HomePage() {
                     fontFamily: "Merienda",
                     width: "100px",
                     flexGrow: 0,
-                    backgroundColor: "var(--text-color)",
-                    color: "var(--white)",
+                    backgroundColor: `${TAG_COLORS[item.type].bgColor}`,
+                    color: `${TAG_COLORS[item.type].color}`,
                   }}
                   label={`${item.type}`}
                 />

@@ -2,10 +2,17 @@
   --primary-color: #3670c6;
   --secondary-color: #6c95ff;
   --black: #000000;
+  --dark: #212529;
   --white: #fefbfb;
+  --white-1: #F3F3F3;
   --text-color: #006073e4;
   --text-color-blue: #3670C6;
   --color: #00A97F;
+
+  --color-tag-1: #ffcda3;
+  --color-tag-2: #58c1c8;
+  --color-tag-3: #f2e8c4;
+  --color-tag-4: #76e1c6;
 
   --button-color-blue: #0457CD;
 
@@ -20,13 +27,15 @@
 
   --toast-infor-bg: #e5f6fd;
   --toast-infor-text: #014361;
+
+  --font-text-SSP: "Source Sans Pro" , sans-serif;
 }
 
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    "Merienda", "Courier Prime" sans-serif;
+    "Merienda", "Courier Prime", "Source Sans Pro", sans-serif ;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   
