@@ -107,12 +107,13 @@ export default function EditPost() {
       sx={{
         width: "100%",
         height: "auto",
-        minHeight: "calc(100vh - 64px)",
+        minHeight: "calc(100vh - 116px)",
         padding: "20px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        marginTop: "76px",
       }}
     >
       <Grid2 item sx={{ height: "100%", minWidth: "450px", width: "auto" }}>

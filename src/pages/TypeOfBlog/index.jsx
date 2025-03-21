@@ -5,8 +5,7 @@ import {
   deleteDocument,
   getBlogByTab,
 } from "../../firebase/Blogs/blogs";
-import CardCover from "../../components/Card";
-import { Grid2, Stack, Typography, Divider, Chip } from "@mui/material";
+import { Grid2, Stack, Typography, Divider, Chip, Box } from "@mui/material";
 import { isMoreThanThreeDaysAgo } from "../../utils/helper";
 import usePermission from "../../hooks/usePermission";
 import MenuComponent from "../../components/Menu";
@@ -16,6 +15,7 @@ import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { TAG_COLORS } from "../../constants/const";
+import Carousel from "../../components/Carousel";
 
 const tab = {
   "home-page": "home",
@@ -89,6 +89,7 @@ function HomePage() {
         width: "100%",
       }}
     >
+      <Box sx={{position:"absolute",left:"auto",top:'0%',right:'0%',width:'100%', maxWidth:'35%', maxHeight:'600px',height:'100%', minWidth:'300px', zIndex:-1, backgroundColor:'#fff5ef'}}></Box>
       <Grid2
         container
         xs={12}
@@ -107,69 +108,8 @@ function HomePage() {
           gap: 4,
         }}
       >
-        {data.map((item) => (
-          <Grid2
-            key={item.id}
-            onClick={() => handleNavigate(item.type, item.id)}
-            item
-            xs={3}
-            md={3}
-            sx={{ height: "240px", width: "350px", cursor: "pointer" }}
-          >
-            <CardCover>
-              {permit && <MenuComponent idPost={item.id} options={options} iconMenu={<MoreVertIcon />} />}
-              <Stack
-                sx={{
-                  padding: "10px",
-                  display: "flex",
-                  gap: "2px",
-                }}
-              >
-                <img
-                  alt="thumbnail blog"
-                  src={item.thumbnail}
-                  style={{
-                    width: "100%",
-                    height: "150px",
-                    objectFit: "contain",
-                    backgroundColor: "var(--text-color)",
-                  }}
-                />
-                <Divider sx={{ marginBottom: "5px" }} />
-                <Typography
-                  sx={{
-                    fontFamily: "Merienda",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 2,
-                  }}
-                >
-                  {item.title}
-                  {isMoreThanThreeDaysAgo(item.date.seconds) && (
-                    <Chip
-                      label="New"
-                      sx={{
-                        backgroundColor: "var(--toast-error-text)",
-                        color: "white",
-                        textDecoration: "none",
-                      }}
-                    />
-                  )}
-                </Typography>
-                <Chip
-                  sx={{
-                    fontFamily: "Merienda",
-                    width: "100px",
-                    flexGrow: 0,
-                    backgroundColor: `${TAG_COLORS[item.type].bgColor}`,
-                    color: `${TAG_COLORS[item.type].color}`,
-                  }}
-                  label={`${item.type}`}
-                />
-              </Stack>
-            </CardCover>
-          </Grid2>
-        ))}
+              {/* {permit && <MenuComponent idPost={item.id} options={options} iconMenu={<MoreVertIcon />} />} */}
+          <Carousel data={data} />
       </Grid2>
     </Grid2>
   );
