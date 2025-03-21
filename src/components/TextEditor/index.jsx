@@ -1,90 +1,16 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import {
-  ClassicEditor,
-  Alignment,
-  Autoformat,
-  AutoImage,
-  AutoLink,
-  Autosave,
-  BlockQuote,
-  Bold,
-  Bookmark,
-  Code,
-  CodeBlock,
-  Essentials,
-  FindAndReplace,
-  FontBackgroundColor,
-  FontColor,
-  FontFamily,
-  FontSize,
-  FullPage,
-  GeneralHtmlSupport,
-  Heading,
-  Highlight,
-  HorizontalLine,
-  HtmlComment,
-  HtmlEmbed,
-  ImageBlock,
-  ImageCaption,
-  ImageInline,
-  ImageInsert,
-  ImageInsertViaUrl,
-  ImageResize,
-  ImageStyle,
-  ImageTextAlternative,
-  ImageToolbar,
-  ImageUpload,
-  Indent,
-  IndentBlock,
-  Italic,
-  Link,
-  LinkImage,
-  List,
-  ListProperties,
-  Markdown,
-  MediaEmbed,
-  Mention,
-  PageBreak,
-  Paragraph,
-  PasteFromMarkdownExperimental,
-  PasteFromOffice,
-  RemoveFormat,
-  ShowBlocks,
-  SimpleUploadAdapter,
-  SourceEditing,
-  SpecialCharacters,
-  SpecialCharactersArrows,
-  SpecialCharactersCurrency,
-  SpecialCharactersEssentials,
-  SpecialCharactersLatin,
-  SpecialCharactersMathematical,
-  SpecialCharactersText,
-  Strikethrough,
-  Subscript,
-  Superscript,
-  Table,
-  TableCaption,
-  TableCellProperties,
-  TableColumnResize,
-  TableProperties,
-  TableToolbar,
-  TextTransformation,
-  TodoList,
-  Underline,
-} from "ckeditor5";
-
-import "ckeditor5/ckeditor5.css";
-
+import { CKEditor, useCKEditorCloud } from "@ckeditor/ckeditor5-react";
+import PropTypes from "prop-types";
 import "./Editor.css";
 
 const LICENSE_KEY =
-  "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDA1Mjc5OTksImp0aSI6ImQ3OWE0YWRmLTBlY2ItNGQ1YS05MmEzLWI4YjYyNTBjZmVhZiIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjNjY2M4Y2I1In0.4ada7CZlkiW0xarazIcV7zYPMrXTbV9B6Sq3wmC-ZML3ElcxfmVHdD41vLgElYfRqhF8PC5ug0F9bRPI4Hr9Wg";
+  "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NzA4NTQzOTksImp0aSI6IjI2MDI4ODQzLTg5OTAtNDY0MC04ODhlLTEyZjM4MTliNTA2NiIsImxpY2Vuc2VkSG9zdHMiOlsiMTI3LjAuMC4xIiwibG9jYWxob3N0IiwiMTkyLjE2OC4qLioiLCIxMC4qLiouKiIsIjE3Mi4qLiouKiIsIioudGVzdCIsIioubG9jYWxob3N0IiwiKi5sb2NhbCJdLCJ1c2FnZUVuZHBvaW50IjoiaHR0cHM6Ly9wcm94eS1ldmVudC5ja2VkaXRvci5jb20iLCJkaXN0cmlidXRpb25DaGFubmVsIjpbImNsb3VkIiwiZHJ1cGFsIl0sImxpY2Vuc2VUeXBlIjoiZGV2ZWxvcG1lbnQiLCJmZWF0dXJlcyI6WyJEUlVQIl0sInZjIjoiNzQ4NDNjNDkifQ.9qcvVkXsd7wIKeJlHFHr41Vz5HzfQHiPFwDTKWAU9iLEKACUhTBmwyNIWjip8imLqs39QAfeGmGDOsElrNwO7Q";
 
-export default function Editor({ setContent, content }) {
+export default function TextEditor({ setContent, content }) {
   const editorContainerRef = useRef(null);
   const editorRef = useRef(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
+  const cloud = useCKEditorCloud({ version: "44.3.0" });
 
   useEffect(() => {
     setIsLayoutReady(true);
@@ -92,20 +18,92 @@ export default function Editor({ setContent, content }) {
     return () => setIsLayoutReady(false);
   }, []);
 
-  const { editorConfig } = useMemo(() => {
-    if (!isLayoutReady) {
+  const { ClassicEditor, editorConfig } = useMemo(() => {
+    if (cloud.status !== "success" || !isLayoutReady) {
       return {};
     }
 
+    const {
+      ClassicEditor,
+      Alignment,
+      Autoformat,
+      AutoImage,
+      AutoLink,
+      Autosave,
+      BlockQuote,
+      Bold,
+      Bookmark,
+      Code,
+      Emoji,
+      Essentials,
+      FindAndReplace,
+      FontBackgroundColor,
+      FontColor,
+      FontFamily,
+      FontSize,
+      GeneralHtmlSupport,
+      Heading,
+      Highlight,
+      HorizontalLine,
+      HtmlComment,
+      HtmlEmbed,
+      ImageBlock,
+      ImageCaption,
+      ImageEditing,
+      ImageInline,
+      ImageInsert,
+      ImageInsertViaUrl,
+      ImageResize,
+      ImageStyle,
+      ImageTextAlternative,
+      ImageToolbar,
+      ImageUpload,
+      ImageUtils,
+      Indent,
+      IndentBlock,
+      Italic,
+      Link,
+      LinkImage,
+      List,
+      ListProperties,
+      Markdown,
+      MediaEmbed,
+      Mention,
+      PageBreak,
+      Paragraph,
+      PasteFromMarkdownExperimental,
+      PasteFromOffice,
+      RemoveFormat,
+      SimpleUploadAdapter,
+      SpecialCharacters,
+      SpecialCharactersArrows,
+      SpecialCharactersCurrency,
+      SpecialCharactersEssentials,
+      SpecialCharactersLatin,
+      SpecialCharactersMathematical,
+      SpecialCharactersText,
+      Strikethrough,
+      Style,
+      Subscript,
+      Superscript,
+      Table,
+      TableCaption,
+      TableCellProperties,
+      TableColumnResize,
+      TableProperties,
+      TableToolbar,
+      TextTransformation,
+      TodoList,
+      Underline,
+    } = cloud.CKEditor;
+
     return {
+      ClassicEditor,
       editorConfig: {
         toolbar: {
           items: [
-            "sourceEditing",
-            "showBlocks",
-            "findAndReplace",
-            "|",
             "heading",
+            "style",
             "|",
             "fontSize",
             "fontFamily",
@@ -115,24 +113,12 @@ export default function Editor({ setContent, content }) {
             "bold",
             "italic",
             "underline",
-            "strikethrough",
-            "subscript",
-            "superscript",
-            "code",
-            "removeFormat",
             "|",
-            "specialCharacters",
-            "horizontalLine",
-            "pageBreak",
             "link",
-            "bookmark",
             "insertImage",
-            "mediaEmbed",
             "insertTable",
             "highlight",
             "blockQuote",
-            "codeBlock",
-            "htmlEmbed",
             "|",
             "alignment",
             "|",
@@ -141,15 +127,6 @@ export default function Editor({ setContent, content }) {
             "todoList",
             "outdent",
             "indent",
-            "|",
-            "toggleImageCaption",
-            "imageTextAlternative",
-            "|",
-            "imageStyle:inline",
-            "imageStyle:wrapText",
-            "imageStyle:breakText",
-            "|",
-            "resizeImage",
           ],
           shouldNotGroupWhenFull: false,
         },
@@ -163,14 +140,13 @@ export default function Editor({ setContent, content }) {
           Bold,
           Bookmark,
           Code,
-          CodeBlock,
+          Emoji,
           Essentials,
           FindAndReplace,
           FontBackgroundColor,
           FontColor,
           FontFamily,
           FontSize,
-          FullPage,
           GeneralHtmlSupport,
           Heading,
           Highlight,
@@ -179,6 +155,7 @@ export default function Editor({ setContent, content }) {
           HtmlEmbed,
           ImageBlock,
           ImageCaption,
+          ImageEditing,
           ImageInline,
           ImageInsert,
           ImageInsertViaUrl,
@@ -187,6 +164,7 @@ export default function Editor({ setContent, content }) {
           ImageTextAlternative,
           ImageToolbar,
           ImageUpload,
+          ImageUtils,
           Indent,
           IndentBlock,
           Italic,
@@ -202,9 +180,7 @@ export default function Editor({ setContent, content }) {
           PasteFromMarkdownExperimental,
           PasteFromOffice,
           RemoveFormat,
-          ShowBlocks,
           SimpleUploadAdapter,
-          SourceEditing,
           SpecialCharacters,
           SpecialCharactersArrows,
           SpecialCharactersCurrency,
@@ -213,6 +189,7 @@ export default function Editor({ setContent, content }) {
           SpecialCharactersMathematical,
           SpecialCharactersText,
           Strikethrough,
+          Style,
           Subscript,
           Superscript,
           Table,
@@ -232,7 +209,6 @@ export default function Editor({ setContent, content }) {
           options: [10, 12, 14, "default", 18, 20, 22],
           supportAllValues: true,
         },
-
         heading: {
           options: [
             {
@@ -300,6 +276,7 @@ export default function Editor({ setContent, content }) {
             "resizeImage",
           ],
         },
+        initialData: content || '',
         licenseKey: LICENSE_KEY,
         link: {
           addTargetToExternalLinks: true,
@@ -331,7 +308,59 @@ export default function Editor({ setContent, content }) {
             },
           ],
         },
+        menuBar: {
+          isVisible: false,
+        },
         placeholder: "Type or paste your content here!",
+        style: {
+          definitions: [
+            {
+              name: "Article category",
+              element: "h3",
+              classes: ["category"],
+            },
+            {
+              name: "Title",
+              element: "h2",
+              classes: ["document-title"],
+            },
+            {
+              name: "Subtitle",
+              element: "h3",
+              classes: ["document-subtitle"],
+            },
+            {
+              name: "Info box",
+              element: "p",
+              classes: ["info-box"],
+            },
+            {
+              name: "Side quote",
+              element: "blockquote",
+              classes: ["side-quote"],
+            },
+            {
+              name: "Marker",
+              element: "span",
+              classes: ["marker"],
+            },
+            {
+              name: "Spoiler",
+              element: "span",
+              classes: ["spoiler"],
+            },
+            {
+              name: "Code (dark)",
+              element: "pre",
+              classes: ["fancy-code", "fancy-code-dark"],
+            },
+            {
+              name: "Code (bright)",
+              element: "pre",
+              classes: ["fancy-code", "fancy-code-bright"],
+            },
+          ],
+        },
         table: {
           contentToolbar: [
             "tableColumn",
@@ -343,23 +372,24 @@ export default function Editor({ setContent, content }) {
         },
       },
     };
-  }, [isLayoutReady]);
+  }, [cloud, isLayoutReady, content]);
 
   return (
     <div className="main-container">
       <div
-        className="editor-container editor-container_classic-editor"
+        className="editor-container editor-container_classic-editor editor-container_include-style"
         ref={editorContainerRef}
       >
         <div className="editor-container__editor">
           <div ref={editorRef}>
-            {editorConfig && (
+            {ClassicEditor && editorConfig && (
               <CKEditor
                 editor={ClassicEditor}
                 config={editorConfig}
                 data={content}
                 onChange={(event, editor) => {
-                  setContent(editor.getData()); // Store content as HTML
+                  const data = editor.getData();
+                  setContent(data);
                 }}
               />
             )}
@@ -369,3 +399,8 @@ export default function Editor({ setContent, content }) {
     </div>
   );
 }
+
+TextEditor.propTypes = {
+  setContent: PropTypes.func.isRequired,
+  content: PropTypes.string,
+};
