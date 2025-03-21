@@ -29,22 +29,23 @@ export const signIn = async (email, password) => {
     );
     const token = await userCredential.user.getIdToken();
     localStorage.setItem("token", token);
-    return {success: true, message: "Đăng nhập thành công ヾ(≧▽≦*)o "}
+    return {success: true, message: "Login success ヾ(≧▽≦*)o "}
   } catch (error) {
-    return {success: false, message: "Đăng nhập thất bại `(*>﹏<*)′ "}
+    return {success: false, message: "Login fail `(*>﹏<*)′ "}
   }
 };
 
 export const loginAsGuest = async () => {
   try {
     await signInAnonymously(auth);
-    return {success: true, message: "Đăng nhập thành công ヾ(≧▽≦*)o "}
+    return {success: true, message: "Login success ヾ(≧▽≦*)o "}
   } catch (error) {
-    return {success: false, message: "Đăng nhập thất bại `(*>﹏<*)′ "}
+    return {success: false, message: "Login fail `(*>﹏<*)′ "}
   }
 };
 
 export const logout = async () => {
+
   try {
     await signOut(auth);
     console.log("User signed out");

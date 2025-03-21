@@ -8,10 +8,12 @@ export default function CardCover({ children, hasShadow = true }) {
         position:'relative',
         width: "100%",
         height: "100%",
-        boxShadow: `${hasShadow ?  "rgba(0, 95, 115, 0.4) 5px 5px, rgba(0, 95, 115, 0.3) 10px 10px, rgba(0, 95, 115, 0.2) 15px 15px, rgba(0, 95, 115, 0.1) 20px 20px, rgba(0, 95, 115, 0.05) 25px 25px;" : ""}`,
+        borderRadius: "15px",
+        boxShadow: `${hasShadow ?  " rgba(255,255,255, 0.1) 0px 8px 32px, rgba(255,255,255, 0.1) 0px 16px 56px, rgba(255,255,255, 0.1) 0px 24px 80px" : ""}`,
       }}
     >
       {children}
     </Card>
   );
 }
+

@@ -1,0 +1,127 @@
+/* From Uiverse.io by nikk7007 */
+.button-auth-DN {
+  --color: #00a97f;
+  padding: 10px;
+  border-radius: 0.3em;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 400;
+  font-size: 1rem;
+  border: 1px solid;
+  font-family: inherit;
+  text-transform: uppercase;
+  color: var(--white);
+  z-index: 1;
+  border: 0px;
+  border: 1px solid #0457cd;
+
+  background-color: #0457cd;
+  text-transform: none;
+  font-family: "Source Sans Pro", sans-serif;
+  margin-top: 1.5rem;
+}
+
+.button-auth-DN::before,
+.button-auth-DN::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 50px;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+  background-color: var(--white);
+  transition: 1s ease;
+}
+
+.button-auth-DN::before {
+  top: -1em;
+  left: -1em;
+}
+
+.button-auth-DN::after {
+  left: calc(100% + 1em);
+  top: calc(100% + 1em);
+}
+
+.button-auth-DN:hover::before,
+.button-auth-DN:hover::after {
+  height: 50vw;
+  width: 50vw;
+}
+
+.button-auth-DN:hover {
+  color: rgb(10, 25, 30);
+  border: 1px solid #0457cd;
+}
+
+.button-auth-DN:active {
+  filter: brightness(0.8);
+}
+
+/* ------------------ */
+
+/* From Uiverse.io by nikk7007 */
+.button-auth-guest {
+  padding: 10px;
+  border-radius: 0.3em;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 400;
+  font-size: 1rem;
+  border: 1px solid var(--color);
+  font-family: inherit;
+  text-transform: uppercase;
+  color: var(--white);
+  z-index: 1;
+  width: 100%;
+  background-color: transparent;
+  text-transform: none;
+  font-family: "Source Sans Pro", sans-serif;
+  border: 1px solid #0457cd;
+  color: #0457cd;
+}
+
+.button-auth-guest::before,
+.button-auth-guest::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 50px;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+  background-color: var(--color);
+  transition: 1s ease;
+}
+
+.button-auth-guest::before {
+  top: -1em;
+  left: -1em;
+}
+
+.button-auth-guest::after {
+  left: calc(100% + 1em);
+  top: calc(100% + 1em);
+}
+
+.button-auth-guest:hover::before,
+.button-auth-guest:hover::after {
+  height: 50vw;
+  width: 50vw;
+}
+
+.button-auth-guest:hover {
+  color: rgb(10, 25, 30);
+  border: 1px solid var(--color);
+}
+
+.button-auth-guest:active {
+  filter: brightness(0.8);
+}

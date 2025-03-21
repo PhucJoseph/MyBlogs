@@ -5,8 +5,7 @@ import {
   deleteDocument,
   getBlogByTab,
 } from "../../firebase/Blogs/blogs";
-import CardCover from "../../components/Card";
-import { Grid2, Stack, Typography, Divider, Chip } from "@mui/material";
+import { Grid2, Stack, Typography, Divider, Chip, Box } from "@mui/material";
 import { isMoreThanThreeDaysAgo } from "../../utils/helper";
 import usePermission from "../../hooks/usePermission";
 import MenuComponent from "../../components/Menu";
@@ -14,13 +13,16 @@ import CreateIcon from "@mui/icons-material/Create";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { TAG_COLORS } from "../../constants/const";
+import Carousel from "../../components/Carousel";
 
 const tab = {
   "home-page": "home",
   sharing: "Sharing",
   cooking: "Cooking",
   health: "Health",
-  "daily-life": "Daily life",
+  traveling: "Traveling",
 };
 
 function HomePage() {
@@ -70,8 +72,8 @@ function HomePage() {
   };
 
   const options = [
-    { name: "Chỉnh sửa", icon: <CreateIcon />, action: handleEditPost },
-    { name: "Xóa", icon: <DeleteForeverIcon />, action: handleDeletePost },
+    { name: "Edit", icon: <CreateIcon />, action: handleEditPost },
+    { name: "Delete", icon: <DeleteForeverIcon />, action: handleDeletePost },
   ];
 
   return (
@@ -80,13 +82,14 @@ function HomePage() {
       md={12}
       xs={12}
       sx={{
-        height: "calc(100vh - 70px)",
+        height: "calc(100vh - 116px)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
       }}
     >
+      <Box sx={{position:"absolute",left:"auto",top:'0%',right:'0%',width:'100%', maxWidth:'35%', maxHeight:'600px',height:'100%', minWidth:'300px', zIndex:-1, backgroundColor:'#fff5ef'}}></Box>
       <Grid2
         container
         xs={12}
@@ -94,10 +97,10 @@ function HomePage() {
         sx={{
           width: "77vw",
           minWidth: "400px",
-          height: "calc(100vh - 70px)",
+          height: "calc(100vh - 116px)",
           flexWrap: "wrap",
           padding: "20px",
-          paddingTop: "40px",
+          paddingTop: "116px",
           paddingBottom: "50px",
           display: "flex",
           justifyContent: "flex-start",
@@ -105,69 +108,8 @@ function HomePage() {
           gap: 4,
         }}
       >
-        {data.map((item) => (
-          <Grid2
-            key={item.id}
-            onClick={() => handleNavigate(item.type, item.id)}
-            item
-            xs={3}
-            md={3}
-            sx={{ height: "240px", width: "350px", cursor: "pointer" }}
-          >
-            <CardCover>
-              {permit && <MenuComponent idPost={item.id} options={options} />}
-              <Stack
-                sx={{
-                  padding: "10px",
-                  display: "flex",
-                  gap: "2px",
-                }}
-              >
-                <img
-                  alt="thumbnail blog"
-                  src={item.thumbnail}
-                  style={{
-                    width: "100%",
-                    height: "150px",
-                    objectFit: "contain",
-                    backgroundColor: "var(--text-color)",
-                  }}
-                />
-                <Divider sx={{ marginBottom: "5px" }} />
-                <Typography
-                  sx={{
-                    fontFamily: "Merienda",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 2,
-                  }}
-                >
-                  {item.title}
-                  {isMoreThanThreeDaysAgo(item.date.seconds) && (
-                    <Chip
-                      label="Mới"
-                      sx={{
-                        backgroundColor: "var(--toast-error-text)",
-                        color: "white",
-                        textDecoration: "none",
-                      }}
-                    />
-                  )}
-                </Typography>
-                <Chip
-                  sx={{
-                    fontFamily: "Merienda",
-                    width: "100px",
-                    flexGrow: 0,
-                    backgroundColor: "var(--text-color)",
-                    color: "var(--white)",
-                  }}
-                  label={`${item.type}`}
-                />
-              </Stack>
-            </CardCover>
-          </Grid2>
-        ))}
+              {/* {permit && <MenuComponent idPost={item.id} options={options} iconMenu={<MoreVertIcon />} />} */}
+          <Carousel data={data} />
       </Grid2>
     </Grid2>
   );
