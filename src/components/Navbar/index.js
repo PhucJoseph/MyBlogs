@@ -119,7 +119,7 @@ export default function DrawerAppBar(props) {
     <Box sx={{ display: "flex" }}>
       <AppBar
         component="nav"
-        sx={{ backgroundColor: "white", padding: "30px 10vw" }}
+        sx={{ backgroundColor: "transparent", padding: "30px 10vw", position:'absolute', zIndex: 1000 }}
       >
         <Toolbar>
           <IconButton
