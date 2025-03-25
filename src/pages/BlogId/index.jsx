@@ -1,14 +1,22 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Typography, IconButton, Grid2 } from "@mui/material";
-import { formatDate } from "../../utils/helper";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import {
+  Typography,
+  IconButton,
+  Grid2,
+  Box,
+  useMediaQuery,
+  Avatar,
+} from "@mui/material";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import DOMPurify from "dompurify";
 import { getBlogById } from "../../firebase/Blogs/blogs";
+import { convertTimestampToDate } from "../../utils/helper";
+import { TAG_COLORS } from "../../constants/const";
+import avatar from "../../assets/image/avata.jpeg";
+import CircleIcon from "@mui/icons-material/Circle";
 
 export default function BlogId() {
   const param = useParams();
@@ -16,8 +24,7 @@ export default function BlogId() {
   const navigate = useNavigate();
   const location = useLocation();
   const [previousPath, setPreviousPath] = useState(null);
-
-
+  const isMobile = useMediaQuery("(max-width:600px)");
 
   const handleGoBack = () => {
     if (previousPath) {
@@ -44,16 +51,15 @@ export default function BlogId() {
     <Grid2
       container
       sx={{
-        width: "100%",
-        height: "calc(100vh - 64px)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        marginTop: "60px",
       }}
     >
       <IconButton
         onClick={() => handleGoBack()}
-        sx={{ marginTop: "5px", position: "absolute", left: "1%" }}
+        sx={{ position: "absolute", left: "1%" }}
       >
         <KeyboardDoubleArrowLeftIcon />
       </IconButton>
@@ -64,32 +70,76 @@ export default function BlogId() {
           minWidth: "450px",
           width: "80vw",
           backgroundColor: "white",
-          marginTop: "50px",
           borderRadius: "10px",
           padding: "30px",
         }}
       >
-        <Typography variant="h5" sx={{ fontFamily: "Merienda" }}>
-          {data.title}
-        </Typography>
-
         <Typography
           variant="body2"
           sx={{
             display: "flex",
             alignItems: "center",
-            fontFamily: "Merienda",
+            fontFamily: "var(--font-text-SSP)",
             gap: 1,
             marginTop: 2,
           }}
         >
-          <AccessTimeIcon sx={{ fontSize: "20px" }} />
-          {formatDate(data.date)}
-          <LocalOfferIcon sx={{ fontSize: "18px" }} />
-          {data.type}
+          <Box
+            sx={{
+              backgroundColor: TAG_COLORS[data?.type]?.bgColor,
+              color: "var(--dark)",
+              padding: "0.4rem 0.7rem",
+              textAlign: "center",
+              borderRadius: "5px",
+              fontSize: isMobile ? "0.8rem" : "0.95rem",
+            }}
+          >
+            {data.type}
+          </Box>
+          {data?.date && convertTimestampToDate(data?.date)}
         </Typography>
-
-        <Typography variant="body1" sx={{ fontFamily: "Merienda" }}>
+        <Typography
+          variant={isMobile ? "h6" : "h3"}
+          sx={{
+            fontFamily: "var(--font-text-SSP)",
+            fontWeight: 600,
+            marginTop: 2,
+          }}
+        >
+          {data.title}
+        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center", marginTop: 4 }}>
+          <Avatar
+            src={avatar}
+            alt={"Phuc Joseph"}
+            sx={{ width: isMobile ? 30 : 40, height: isMobile ? 30 : 40 }}
+          />
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              marginLeft: "0.5rem",
+            }}
+          >
+            Phuc Joseph
+            <Typography
+              sx={{
+                marginLeft: "0.8rem",
+                color: "#555",
+                fontWeight: "500",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.25rem",
+              }}
+            >
+              <CircleIcon sx={{ fontSize: "0.45rem" }} /> {data?.readingTime} to
+              read
+            </Typography>
+          </Typography>
+        </Box>
+        <Typography variant="body1" sx={{ fontFamily: "var(--font-text-SSP)", }}>
           <div
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(data.content),
