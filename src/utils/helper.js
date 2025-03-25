@@ -81,3 +81,8 @@ export function stringAvatar(name) {
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
   };
 }
+
+export function convertTimestampToDate(timestamp) {
+  const date = new Date(timestamp.seconds * 1000); // Convert seconds to milliseconds
+  return date.toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
+}

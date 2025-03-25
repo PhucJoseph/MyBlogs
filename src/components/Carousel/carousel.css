@@ -1,11 +1,9 @@
 .carousel-container {
   position: relative;
-  max-width: 800px;
+  max-width: 1000px;
   width: 100%;
   margin: auto;
   overflow: hidden;
-
-  background-color: pink;
 
 }
 
@@ -41,6 +39,7 @@
 .carousel-text {
   flex: 1;
   padding: 20px;
+  
 }
 
 .carousel-meta {
@@ -54,6 +53,12 @@
   font-weight: bold;
   margin-bottom: 10px;
   font-family: var(--font-text-SSP);
+}
+
+.carousel-title:hover {
+  color: #838892;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .carousel-description {
@@ -74,6 +79,7 @@
   background-position: center;
   min-height: 250px;
   border-radius: 10px;
+  max-width: 400px;
 }
 
 .carousel-btn {
