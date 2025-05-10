@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getAllTypeOfBlogs } from "../../firebase/Blogs/blogs";
 import toast from "react-hot-toast";
+import Menu from "../Menu";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -16,7 +17,11 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Navbar.css"; // Import your CSS file
-import usePermission from "../../hooks/usePermission";
+import { logout } from "../../firebase/Auth/authentication";
+import { Avatar } from "@mui/material";
+import avatar from "../../assets/image/avata.jpeg";
+import LogoutIcon from "@mui/icons-material/Logout";
+import CreateIcon from "@mui/icons-material/Create";
 
 const drawerWidth = 240;
 
@@ -26,7 +31,6 @@ export default function DrawerAppBar(props) {
   const [navItems, setNavItems] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const permit = usePermission();
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -35,13 +39,19 @@ export default function DrawerAppBar(props) {
     navigate("/" + path);
   };
 
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
+
+  const handleNavigateCreate = () => {
+    navigate("/create-post");
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         let result = await getAllTypeOfBlogs();
-        if (permit) {
-          result.push({ id: "0", name: "Create post", url: "create-post" });
-        }
         setNavItems(result);
       } catch (error) {
         toast.error("OOPS, Có lỗi rồi 〒▽〒");
@@ -49,7 +59,7 @@ export default function DrawerAppBar(props) {
     };
 
     fetchData();
-  }, [permit]);
+  }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -84,7 +94,11 @@ export default function DrawerAppBar(props) {
           >
             <ListItemButton
               sx={{ textAlign: "center" }}
-              className={location.pathname === "/" + item.url ? "active ListItemButton" : "ListItemButton"}
+              className={
+                location.pathname === "/" + item.url
+                  ? "active ListItemButton"
+                  : "ListItemButton"
+              }
             >
               <Typography sx={{ color: "white", fontFamily: "Merienda" }}>
                 {item.name}
@@ -96,11 +110,16 @@ export default function DrawerAppBar(props) {
     </Box>
   );
 
+  const options = [
+    { name: "Create post", action: handleNavigateCreate, icon: <CreateIcon /> },
+    { name: "Signout", action: handleLogout, icon: <LogoutIcon /> },
+  ];
+
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
         component="nav"
-        sx={{ backgroundColor: "var(--secondary-color)" }}
+        sx={{ backgroundColor: "white", padding: "30px 10vw" }}
       >
         <Toolbar>
           <IconButton
@@ -111,31 +130,53 @@ export default function DrawerAppBar(props) {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { md: "none" } }}
           >
-            <MenuIcon />
+            <MenuIcon sx={{ width: 32, height: 32, color:'var(--dark)' }} />
           </IconButton>
           <Typography
-            variant="h6"
+            variant="h5"
             component="div"
             sx={{
               flexGrow: 1,
               display: { xs: "none", md: "block" },
               fontFamily: "Old Standard TT",
+              fontWeight: "600",
+              color: "var(--dark)",
             }}
           >
             PhucJoseph
           </Typography>
-          <Box sx={{ display: { xs: "none", md: "block" } }}>
+          <Box
+            sx={{
+              position: "absolute",
+              left: "170px",
+              display: { xs: "none", md: "block" },
+            }}
+          >
             {navItems.map((item) => (
               <Button
                 onClick={() => handleNavigate(item.url)}
                 key={item.id}
-                sx={{ color: "#fff", fontFamily: "Merienda" }}
-                className={location.pathname === "/" + item.url ? "active Button" : "Button"}
+                sx={{ color: "var(--dark)" }}
+                className={
+                  location.pathname === "/" + item.url
+                    ? "active Button"
+                    : "Button"
+                }
               >
                 {item.name}
               </Button>
             ))}
           </Box>
+          <Menu
+            options={options}
+            iconMenu={
+              <Avatar
+                alt="Phuc Joseph"
+                src={avatar}
+                sx={{ width: 56, height: 56 }}
+              />
+            }
+          />
         </Toolbar>
       </AppBar>
       <nav>
@@ -148,7 +189,7 @@ export default function DrawerAppBar(props) {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: "block", sm: "none" },
+            display: { sm: "block", md: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,

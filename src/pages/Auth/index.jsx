@@ -76,7 +76,7 @@ export default function Login() {
             <Typography
               variant="h3"
               sx={{
-                fontFamily: "Courier Prime",
+                fontFamily: "var(--font-text-SSP)",
                 color: "#3670C6",
                 fontWeight: "bold",
                 fontSize: "2.1em",
@@ -91,7 +91,7 @@ export default function Login() {
               >
                 <Stack display={"flex"} gap={2}>
                   <Stack sx={{ width: "100%" }}>
-                    <Typography sx={{ fontFamily: "Courier Prime" }}>
+                    <Typography sx={{ fontFamily: "var(--font-text-SSP)" }}>
                       Email
                     </Typography>
                     <Controller
@@ -108,7 +108,7 @@ export default function Login() {
                     />
                   </Stack>
                   <Stack sx={{ width: "100%" }}>
-                    <Typography sx={{ fontFamily: "Courier Prime" }}>
+                    <Typography sx={{ fontFamily: "var(--font-text-SSP)" }}>
                       Mật khẩu
                     </Typography>
                     <Controller
@@ -154,7 +154,7 @@ export default function Login() {
                 </Stack>
               </form>
             </FormProvider>
-            <Typography sx={{ fontFamily: "Courier Prime" }}>Or</Typography>
+            <Typography sx={{ fontFamily: "var(--font-text-SSP)" }}>Or</Typography>
 
             <Button
               onClick={handleLoginAsGuest}

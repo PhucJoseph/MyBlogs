@@ -1,9 +1,17 @@
 .active {
-  background-color: #1c2e66; /* Change to your desired active background color */
+  background-color: #1c2e66 !important; /* Change to your desired active background color */
   transition: background-color 0.3s ease, color 0.3s ease;
+  color: var(--white-1) !important; /* Change to your desired active text color */
 }
 
 .ListItemButton,
 .Button {
   transition: background-color 0.3s ease, color 0.3s ease;
+  color: #000 ;
+  font-family: var(--font-text-SSP) !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  letter-spacing: 0.5 !important;
+
 }
