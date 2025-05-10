@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import CardCover from "../../components/Card";
-import { Stack, Typography, TextField, Button, Grid2 } from "@mui/material";
+import { Stack, Typography, Button, Grid2 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import { signIn, loginAsGuest } from "../../firebase/Auth/authentication";
 import { useNavigate } from "react-router-dom";
-import Input from '@mui/material/Input';
+import Input from "@mui/material/Input";
 
 import toast from "react-hot-toast";
 
@@ -74,11 +74,12 @@ export default function Login() {
         <CardCover>
           <Stack sx={{ padding: "40px" }} alignItems={"center"} gap={2}>
             <Typography
-              variant="h4"
+              variant="h3"
               sx={{
                 fontFamily: "Courier Prime",
                 color: "#3670C6",
                 fontWeight: "bold",
+                fontSize: "2.1em",
               }}
             >
               Sign in
@@ -101,7 +102,7 @@ export default function Login() {
                           {...field}
                           placeholder="Email"
                           size="small"
-                          sx={{marginTop:'5px'}}
+                          sx={{ marginTop: "5px" }}
                         />
                       )}
                     />
@@ -120,7 +121,7 @@ export default function Login() {
                           type={showPassword ? "text" : "password"}
                           size="small"
                           variant="outlined"
-                          sx={{marginTop:'5px'}}
+                          sx={{ marginTop: "5px" }}
                           endAdornment={
                             <InputAdornment position="end">
                               <IconButton

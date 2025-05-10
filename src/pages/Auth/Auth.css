@@ -8,7 +8,7 @@
   cursor: pointer;
   transition: 0.3s;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 1.2rem;
   border: 1px solid;
   font-family: inherit;
   text-transform: uppercase;
@@ -73,7 +73,7 @@
   cursor: pointer;
   transition: 0.3s;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 1.2rem;
   border: 1px solid var(--color);
   font-family: inherit;
   text-transform: uppercase;
