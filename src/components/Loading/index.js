@@ -6,7 +6,7 @@ export default function Loading() {
     <Grid2
       xs={12}
       md={12}
-      sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      sx={{ display: "flex", justifyContent: "center", alignItems: "center", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
     >
       <img src={loading} alt="loading" style={{ height: "100px" }} />
       <Typography>Xin chờ 1 xíu !!</Typography>

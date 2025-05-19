@@ -17,14 +17,29 @@ import { convertTimestampToDate } from "../../utils/helper";
 import { TAG_COLORS } from "../../constants/const";
 import avatar from "../../assets/image/avata.jpeg";
 import CircleIcon from "@mui/icons-material/Circle";
+import Loading from "../../components/Loading";
+import useAsync from "../../hooks/useAsync";
 
 export default function BlogId() {
   const param = useParams();
-  const [data, setData] = React.useState([]);
   const navigate = useNavigate();
   const location = useLocation();
   const [previousPath, setPreviousPath] = useState(null);
   const isMobile = useMediaQuery("(max-width:600px)");
+  const {loading, value} = useAsync(() => {
+    return new Promise((resolve, reject) => {
+      getBlogById(param.id).then((data) => {
+        if (data) {
+          resolve(data)
+        } else {
+          reject("No data")
+        }
+      }).catch((error) => {
+        reject(error)
+      })
+
+    })
+  },[param.id]);
 
   const handleGoBack = () => {
     if (previousPath) {
@@ -36,16 +51,11 @@ export default function BlogId() {
 
   React.useEffect(() => {
     setPreviousPath((prev) => (location.pathname !== prev ? prev : null));
-    const fetchData = async () => {
-      const data = await getBlogById(param.id);
-      if (data) {
-        setData(data);
-      } else {
-        console.log("No such document!");
-      }
-    };
-    fetchData();
   }, [param.id, location.pathname]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Grid2
@@ -86,7 +96,7 @@ export default function BlogId() {
         >
           <Box
             sx={{
-              backgroundColor: TAG_COLORS[data?.type]?.bgColor,
+              backgroundColor: TAG_COLORS[value?.type]?.bgColor,
               color: "var(--dark)",
               padding: "0.4rem 0.7rem",
               textAlign: "center",
@@ -94,9 +104,9 @@ export default function BlogId() {
               fontSize: isMobile ? "0.8rem" : "0.95rem",
             }}
           >
-            {data.type}
+            {value?.type}
           </Box>
-          {data?.date && convertTimestampToDate(data?.date)}
+          {value?.date && convertTimestampToDate(value?.date)}
         </Typography>
         <Typography
           variant={isMobile ? "h6" : "h3"}
@@ -106,7 +116,7 @@ export default function BlogId() {
             marginTop: 2,
           }}
         >
-          {data.title}
+          {value?.title}
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", marginTop: 4 }}>
           <Avatar
@@ -134,7 +144,7 @@ export default function BlogId() {
                 gap: "0.25rem",
               }}
             >
-              <CircleIcon sx={{ fontSize: "0.45rem" }} /> {data?.readingTime} to
+              <CircleIcon sx={{ fontSize: "0.45rem" }} /> {value?.readingTime} to
               read
             </Typography>
           </Typography>
@@ -142,7 +152,7 @@ export default function BlogId() {
         <Typography variant="body1" sx={{ fontFamily: "var(--font-text-SSP)", }}>
           <div
             dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(data.content),
+              __html: DOMPurify.sanitize(value.content),
             }}
           />
         </Typography>
