@@ -26,7 +26,7 @@ export default function BlogId() {
   const location = useLocation();
   const [previousPath, setPreviousPath] = useState(null);
   const isMobile = useMediaQuery("(max-width:600px)");
-  const {loading,error,value} = useAsync(() => {
+  const {loading, value} = useAsync(() => {
     return new Promise((resolve, reject) => {
       getBlogById(param.id).then((data) => {
         if (data) {
