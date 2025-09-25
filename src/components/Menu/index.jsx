@@ -41,7 +41,7 @@ export default function MenuComponent({ options, idPost = null, iconMenu }) {
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
         onClick={handleClick}
-        //sx={{backgroundColor:"var(--white)"}}
+        sx={{backgroundColor: "white"}}
       >
         {iconMenu}
       </IconButton>

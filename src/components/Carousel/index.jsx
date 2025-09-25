@@ -1,17 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Typography, useMediaQuery, Avatar } from "@mui/material";
-import ArrowBackIos from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIos from "@mui/icons-material/ArrowForwardIos";
+import { Box, IconButton, Typography, useMediaQuery, Avatar } from "@mui/material";
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { TAG_COLORS } from "../../constants/const";
 import { convertTimestampToDate } from "../../utils/helper";
 import avatar from "../../assets/image/avata.jpeg";
 import CircleIcon from "@mui/icons-material/Circle";
 import "./carousel.css";
+import MenuComponent from '../../components/Menu'
+import CreateIcon from "@mui/icons-material/Create";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { useNavigate } from "react-router-dom";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import usePermission from "../../hooks/usePermission"
 
 const Carousel = ({ data, handleNavigate }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const isMobile = useMediaQuery("(max-width:600px)");
   const isTablet = useMediaQuery("(max-width:900px)");
+  const permit = usePermission();
+
+  let navigate = useNavigate();
+  
   const isSingleItem = data.length === 1;
   const dateTime =
     data[currentIndex]?.date &&
@@ -39,23 +49,42 @@ const Carousel = ({ data, handleNavigate }) => {
       );
     }
   };
-  console.log(data[currentIndex]);
+
+    // const handleDeletePost = async (id) => {
+  //   const res = await deleteDocument(id);
+  //   if (res.success) {
+  //     fetchBlogs();
+  //     toast.success(res.message);
+  //   } else {
+  //     toast.error(res.message);
+  //   }
+  // };
+
+  const handleEditPost = (id) => {
+    navigate(`/edit-post/${id}`);
+  };
+
+    const options = [
+      { name: "Edit", icon: <CreateIcon />, action: handleEditPost },
+      { name: "Delete", icon: <DeleteForeverIcon />, action: () => {} },
+    ];
+    
   return (
     data.length > 0 && (
       <Box
         className="carousel-container"
-        sx={{ maxWidth: isTablet ? "90%" : "70%", margin: "auto" }}
+        sx={{ maxWidth: isTablet ? "90%" : "70%", margin: "auto"}}
       >
         {!isMobile && !isSingleItem && (
-          <Button
+          <IconButton
             className="carousel-btn left"
             onClick={prevSlide}
             disabled={currentIndex === 0}
           >
-            <ArrowBackIos />
-          </Button>
+            <ChevronLeftIcon  fontSize="large"/>
+          </IconButton>
         )}
-        <Box className="carousel-slide fade">
+        <Box className="carousel-slide fade">  
           <Box
             className="carousel-content"
             sx={{
@@ -88,7 +117,7 @@ const Carousel = ({ data, handleNavigate }) => {
                 </Typography>
               </Box>
               <Typography
-                variant={isMobile ? "h6" : "h3"}
+                variant={isMobile ? "h6" : "h4"}
                 className="carousel-title"
                 onClick={() =>
                   handleNavigate(
@@ -148,18 +177,21 @@ const Carousel = ({ data, handleNavigate }) => {
                 width: "100%",
                 backgroundSize: "cover",
                 borderRadius: "10px",
+                position: 'relative'
               }}
-            />
+            >
+            {permit && <MenuComponent idPost={data[currentIndex].id} options={options} iconMenu={<MoreVertIcon />} />}
+            </Box>
           </Box>
         </Box>
         {!isMobile && !isSingleItem && (
-          <Button
+          <IconButton
             className="carousel-btn right"
             onClick={nextSlide}
             disabled={currentIndex === data.length - 1}
           >
-            <ArrowForwardIos />
-          </Button>
+            <ChevronRightIcon fontSize="large" />
+          </IconButton>
         )}
       </Box>
     )
