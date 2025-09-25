@@ -9,10 +9,8 @@ import { Grid2, Box } from "@mui/material";
 // import { isMoreThanThreeDaysAgo } from "../../utils/helper";
 // import usePermission from "../../hooks/usePermission";
 // import MenuComponent from "../../components/Menu";
-// import CreateIcon from "@mui/icons-material/Create";
-// import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+
 // import toast from "react-hot-toast";
-// import MoreVertIcon from "@mui/icons-material/MoreVert";
 // import { TAG_COLORS } from "../../constants/const";
 import { useParams } from "react-router-dom";
 
@@ -53,25 +51,6 @@ function HomePage() {
     path = "/" + String(type).toLowerCase() + "/" + id;
     navigate(path);
   };
-
-  // const handleDeletePost = async (id) => {
-  //   const res = await deleteDocument(id);
-  //   if (res.success) {
-  //     fetchBlogs();
-  //     toast.success(res.message);
-  //   } else {
-  //     toast.error(res.message);
-  //   }
-  // };
-
-  // const handleEditPost = (id) => {
-  //   navigate(`/edit-post/${id}`);
-  // };
-
-  // const options = [
-  //   { name: "Edit", icon: <CreateIcon />, action: handleEditPost },
-  //   { name: "Delete", icon: <DeleteForeverIcon />, action: handleDeletePost },
-  // ];
 
   return (
     <Grid2
@@ -119,7 +98,6 @@ function HomePage() {
           gap: 4,
         }}
       >
-        {/* {permit && <MenuComponent idPost={item.id} options={options} iconMenu={<MoreVertIcon />} />} */}
         <Carousel data={data} handleNavigate={handleNavigate} />
       </Grid2>
     </Grid2>

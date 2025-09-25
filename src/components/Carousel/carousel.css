@@ -4,7 +4,8 @@
   width: 100%;
   margin: auto;
   overflow: hidden;
-
+  display: flex;
+  justify-content: center;
 }
 
 .carousel-slide {
@@ -12,7 +13,7 @@
   align-items: center;
   justify-content: center;
   transition: opacity 0.8s ease-in-out;
-
+  max-width: 80%;
 }
 
 .fade {
@@ -100,11 +101,11 @@
 }
 
 .carousel-btn.left {
-  left: 10px;
+  left: 0px;
 }
 
 .carousel-btn.right {
-  right: 10px;
+  right: 0px;
 }
 
 .carousel-btn:disabled {
