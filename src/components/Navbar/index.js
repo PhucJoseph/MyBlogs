@@ -22,6 +22,8 @@ import { Avatar } from "@mui/material";
 import avatar from "../../assets/image/avata.jpeg";
 import LogoutIcon from "@mui/icons-material/Logout";
 import CreateIcon from "@mui/icons-material/Create";
+import usePermission from "../../hooks/usePermission";
+import { AccountCircle } from "@mui/icons-material";
 
 const drawerWidth = 240;
 
@@ -31,7 +33,7 @@ export default function DrawerAppBar(props) {
   const [navItems, setNavItems] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-
+  const permission = usePermission();
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
@@ -119,7 +121,12 @@ export default function DrawerAppBar(props) {
     <Box sx={{ display: "flex" }}>
       <AppBar
         component="nav"
-        sx={{ backgroundColor: "transparent", padding: "30px 10vw", position:'absolute', zIndex: 1000 }}
+        sx={{
+          backgroundColor: "transparent",
+          padding: "30px 10vw",
+          position: "absolute",
+          zIndex: 1000,
+        }}
       >
         <Toolbar>
           <IconButton
@@ -130,7 +137,7 @@ export default function DrawerAppBar(props) {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { md: "none" } }}
           >
-            <MenuIcon sx={{ width: 32, height: 32, color:'var(--dark)' }} />
+            <MenuIcon sx={{ width: 32, height: 32, color: "var(--dark)" }} />
           </IconButton>
           <Typography
             variant="h5"
@@ -168,13 +175,19 @@ export default function DrawerAppBar(props) {
             ))}
           </Box>
           <Menu
-            options={options}
+            options={
+              permission ? options : options.filter((e) => e.name === "Signout")
+            }
             iconMenu={
-              <Avatar
-                alt="Phuc Joseph"
-                src={avatar}
-                sx={{ width: 56, height: 56 }}
-              />
+              permission ? (
+                <Avatar
+                  alt="Phuc Joseph"
+                  src={avatar}
+                  sx={{ width: 56, height: 56 }}
+                />
+              ) : (
+                <AccountCircle  sx={{ width: 56, height: 56}} />
+              )
             }
           />
         </Toolbar>

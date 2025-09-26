@@ -29,12 +29,12 @@ export default function CreatePost() {
   const handleSaveImage = async (file) => {
     try {
       const base64Thumbnail = await convertImageToBase64(file);
-      setPostThumbnail(file)
+      setPostThumbnail(file);
       setThumbnailPreview(base64Thumbnail);
     } catch (error) {
       toast.error("Error converting image to Base64:", error);
     }
-  }
+  };
 
   const fetchData = async () => {
     try {
@@ -196,7 +196,7 @@ export default function CreatePost() {
                     <img
                       alt="thumbnail"
                       src={thumbnailPreview}
-                      style={{aspectRatio: "16/9", width: "300px"}}
+                      style={{ aspectRatio: "16/9", width: "300px" }}
                     />
                   )}
                   <Grid2
@@ -218,7 +218,7 @@ export default function CreatePost() {
                     marginTop: "10px",
                     float: "right",
                     backgroundColor: "var(--secondary-color)",
-                    textTransform:'none'
+                    textTransform: "none",
                   }}
                 >
                   Tạo bài viết
