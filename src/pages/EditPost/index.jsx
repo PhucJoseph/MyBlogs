@@ -36,7 +36,7 @@ export default function EditPost() {
     } catch (error) {
       toast.error("Error converting image to Base64:", error);
     }
-  }
+  };
 
   const fetchData = async () => {
     try {
@@ -47,23 +47,27 @@ export default function EditPost() {
     }
   };
 
-
-  const fetchDataById = React.useCallback(async (id) => {
-    try {
-      const data = await getBlogById(id);
-      console.log(data);
-      if (data) {
-        methods.setValue("title", data.title);
-        methods.setValue("type", data.type);
-        setContent(data.content);
-        setPostThumbnail(data.thumbnail);
-      } else {
-        console.log("No such document!");
+  const fetchDataById = React.useCallback(
+    async (id) => {
+      try {
+        const data = await getBlogById(id);
+        console.log(data);
+        if (data) {
+          methods.setValue("title", data.title);
+          methods.setValue("type", data.type);
+          methods.setValue("description", data.description);
+          methods.setValue("readingTime", data.readingTime)
+          setContent(data.content);
+          setPostThumbnail(data.thumbnail);
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        toast.error("Error fetching blog data:", error);
       }
-    } catch (error) {
-      toast.error("Error fetching blog data:", error);
-    }
-  }, [methods]);
+    },
+    [methods]
+  );
 
   React.useEffect(() => {
     if (param.id) {
@@ -200,10 +204,58 @@ export default function EditPost() {
                       flexDirection: "column",
                     }}
                   >
+                    <Typography>Mô tả bài viết</Typography>
+                    <Controller
+                      name="description"
+                      control={methods.control}
+                      sx={{ width: "100%" }}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          placeholder="Mô tả bài viết"
+                          variant="outlined"
+                          size="small"
+                          name="description"
+                          required
+                        />
+                      )}
+                    />
+                  </Grid2>
+                  <Grid2
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Typography>Thời gian đọc bài</Typography>
+                    <Controller
+                      name="readingTime"
+                      control={methods.control}
+                      sx={{ width: "100%" }}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          placeholder="Thời gian đọc bài"
+                          variant="outlined"
+                          size="small"
+                          name="readingTime"
+                          required
+                        />
+                      )}
+                    />
+                  </Grid2>
+                  <Grid2
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
                     <Typography>Thumbnail bài viết</Typography>
                     <Controller
                       name="thumbnail"
-                      control={methods.control} 
+                      control={methods.control}
                       sx={{ width: "100%" }}
                       render={({ field }) => (
                         <TextField
@@ -223,7 +275,7 @@ export default function EditPost() {
                     <img
                       alt="thumbnail"
                       src={postThumbnail}
-                      style={{aspectRatio: "16/9", width: "300px"}}
+                      style={{ aspectRatio: "16/9", width: "300px" }}
                     />
                   )}
 

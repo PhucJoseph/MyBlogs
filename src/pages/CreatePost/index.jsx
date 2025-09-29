@@ -173,6 +173,56 @@ export default function CreatePost() {
                       flexDirection: "column",
                     }}
                   >
+                    <Typography>Thời gian đọc bài</Typography>
+                    <Controller
+                      name="description"
+                      control={methods.control}
+                      sx={{ width: "100%" }}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          placeholder="Thời gian đọc bài"
+                          variant="outlined"
+                          size="small"
+                          name="description"
+                          required
+                        />
+                      )}
+                    />
+                  </Grid2>
+
+                  <Grid2
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Typography>Mô tả bài viết</Typography>
+                    <Controller
+                      name="readingTime"
+                      control={methods.control}
+                      sx={{ width: "100%" }}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          placeholder="Mô tả bài viết"
+                          variant="outlined"
+                          size="small"
+                          name="readingTime"
+                          required
+                        />
+                      )}
+                    />
+                  </Grid2>
+
+                  <Grid2
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
                     <Typography>Thumbnail bài viết</Typography>
                     <Controller
                       name="thumbnail"
