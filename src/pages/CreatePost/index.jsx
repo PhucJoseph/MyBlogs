@@ -7,6 +7,7 @@ import {
   Typography,
   Button,
   Grid2,
+  IconButton,
 } from "@mui/material";
 import CardCover from "../../components/Card";
 import Editor from "../../components/TextEditor";
@@ -16,6 +17,7 @@ import { convertImageToBase64 } from "../../utils/helper";
 import toast from "react-hot-toast";
 import { addBlog } from "../../firebase/Blogs/blogs";
 import { useNavigate } from "react-router-dom";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 
 export default function CreatePost() {
   const methods = useForm();
@@ -25,6 +27,7 @@ export default function CreatePost() {
   const [selectedType, setSelectedType] = React.useState([]);
   const [content, setContent] = React.useState("");
   const [thumbnailPreview, setThumbnailPreview] = React.useState("");
+  const [previousPath, setPreviousPath] = React.useState(null);
 
   const handleSaveImage = async (file) => {
     try {
@@ -42,6 +45,14 @@ export default function CreatePost() {
       setSelectedType(result.filter((item) => item.name !== "Home"));
     } catch (error) {
       toast.error("OOPS, Có lỗi rồi 〒▽〒");
+    }
+  };
+
+  const handleGoBack = () => {
+    if (previousPath) {
+      navigate(previousPath);
+    } else {
+      navigate("/home-page"); // Default fallback if no previous page is stored
     }
   };
 
@@ -90,9 +101,16 @@ export default function CreatePost() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        marginTop: "64px",
       }}
     >
       <Grid2 item sx={{ height: "100%", minWidth: "450px", width: "auto" }}>
+        <IconButton
+          onClick={() => handleGoBack()}
+          sx={{ position: "absolute", left: "1%" }}
+        >
+          <KeyboardDoubleArrowLeftIcon />
+        </IconButton>
         <CardCover hasShadow={false}>
           <Stack sx={{ padding: "20px" }} alignItems={"center"} gap={2}>
             <FormProvider {...methods}>

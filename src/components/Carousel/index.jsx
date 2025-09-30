@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { Box, IconButton, Typography, useMediaQuery, Avatar } from "@mui/material";
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import {
+  Box,
+  IconButton,
+  Typography,
+  useMediaQuery,
+  Avatar,
+} from "@mui/material";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { TAG_COLORS } from "../../constants/const";
 import { convertTimestampToDate } from "../../utils/helper";
 import avatar from "../../assets/image/avata.jpeg";
 import CircleIcon from "@mui/icons-material/Circle";
 import "./carousel.css";
-import MenuComponent from '../../components/Menu'
+import MenuComponent from "../../components/Menu";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useNavigate } from "react-router-dom";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import usePermission from "../../hooks/usePermission"
+import usePermission from "../../hooks/usePermission";
 
 const Carousel = ({ data, handleNavigate }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -21,7 +27,7 @@ const Carousel = ({ data, handleNavigate }) => {
   const permit = usePermission();
 
   let navigate = useNavigate();
-  
+
   const isSingleItem = data.length === 1;
   const dateTime =
     data[currentIndex]?.date &&
@@ -50,7 +56,7 @@ const Carousel = ({ data, handleNavigate }) => {
     }
   };
 
-    // const handleDeletePost = async (id) => {
+  // const handleDeletePost = async (id) => {
   //   const res = await deleteDocument(id);
   //   if (res.success) {
   //     fetchBlogs();
@@ -64,38 +70,38 @@ const Carousel = ({ data, handleNavigate }) => {
     navigate(`/edit-post/${id}`);
   };
 
-    const options = [
-      { name: "Edit", icon: <CreateIcon />, action: handleEditPost },
-      { name: "Delete", icon: <DeleteForeverIcon />, action: () => {} },
-    ];
-    
+  const options = [
+    { name: "Edit", icon: <CreateIcon />, action: handleEditPost },
+    { name: "Delete", icon: <DeleteForeverIcon />, action: () => {} },
+  ];
+
   return (
     data.length > 0 && (
       <Box
         className="carousel-container"
-        sx={{ maxWidth: isTablet ? "90%" : "70%", margin: "auto"}}
+        sx={{ maxWidth: isTablet ? "90%" : "70%", margin: "auto" }}
       >
-        {!isMobile && !isSingleItem && (
+        {!isTablet && !isSingleItem && (
           <IconButton
             className="carousel-btn left"
             onClick={prevSlide}
             disabled={currentIndex === 0}
           >
-            <ChevronLeftIcon  fontSize="large"/>
+            <ChevronLeftIcon fontSize="large" />
           </IconButton>
         )}
-        <Box className="carousel-slide fade">  
+        <Box className="carousel-slide fade">
           <Box
             className="carousel-content"
             sx={{
               display: "flex",
-              flexDirection: isMobile ? "column" : "row",
+              flexDirection: isTablet ? "column" : "row",
               alignItems: "center",
             }}
           >
             <Box
               className="carousel-text"
-              sx={{ flex: 1, padding: isMobile ? "1rem" : "2rem" }}
+              sx={{ flex: 1, padding: isTablet ? "1rem" : "2rem" }}
             >
               <Box className="carousel-meta">
                 <Box
@@ -107,17 +113,20 @@ const Carousel = ({ data, handleNavigate }) => {
                     padding: "0.4rem 0.7rem",
                     textAlign: "center",
                     borderRadius: "5px",
-                    fontSize: isMobile ? "0.8rem" : "0.95rem",
+                    fontSize: isTablet ? "0.8rem" : "0.95rem",
                   }}
                 >
                   {data[currentIndex]?.type}
                 </Box>
-                <Typography variant="body2" sx={{ color: "#555" }}>
+                <Typography
+                  variant="body2"
+                  sx={{ color: "#555", fontSize: isTablet ? "10px" : "14px" }}
+                >
                   {dateTime}
                 </Typography>
               </Box>
               <Typography
-                variant={isMobile ? "h6" : "h4"}
+                variant={isTablet ? "h6" : "h4"}
                 className="carousel-title"
                 onClick={() =>
                   handleNavigate(
@@ -131,7 +140,10 @@ const Carousel = ({ data, handleNavigate }) => {
               <Typography
                 variant="body1"
                 className="carousel-description"
-                sx={{ fontSize: isMobile ? "0.9rem" : "1.1rem" }}
+                sx={{
+                  fontSize: isTablet ? "0.9rem" : "1.1rem",
+                  width: isMobile ? "250px" : isTablet ? "300px" : "350px",
+                }}
               >
                 {data[currentIndex]?.description}
               </Typography>
@@ -142,7 +154,7 @@ const Carousel = ({ data, handleNavigate }) => {
                 <Avatar
                   src={avatar}
                   alt={"Phuc Joseph"}
-                  sx={{ width: isMobile ? 30 : 40, height: isMobile ? 30 : 40 }}
+                  sx={{ width: isTablet ? 30 : 40, height: isTablet ? 30 : 40 }}
                 />
                 <Typography
                   variant="body2"
@@ -173,18 +185,24 @@ const Carousel = ({ data, handleNavigate }) => {
               className="carousel-image"
               sx={{
                 backgroundImage: `url(${data[currentIndex]?.thumbnail})`,
-                height: isMobile ? "250px" : isTablet ? "350px" : "400px",
-                width: "100%",
+                height: isMobile ? "250px" : isTablet ? "300px" : "350px",
+                width: isMobile ? "250px" : isTablet ? "300px" : "350px",
                 backgroundSize: "cover",
                 borderRadius: "10px",
-                position: 'relative'
+                position: "relative",
               }}
             >
-            {permit && <MenuComponent idPost={data[currentIndex].id} options={options} iconMenu={<MoreVertIcon />} />}
+              {permit && (
+                <MenuComponent
+                  idPost={data[currentIndex].id}
+                  options={options}
+                  iconMenu={<MoreVertIcon />}
+                />
+              )}
             </Box>
           </Box>
         </Box>
-        {!isMobile && !isSingleItem && (
+        {!isTablet && !isSingleItem && (
           <IconButton
             className="carousel-btn right"
             onClick={nextSlide}
