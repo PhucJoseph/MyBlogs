@@ -172,7 +172,7 @@ export default function TextEditor({ setContent, content }) {
           LinkImage,
           List,
           ListProperties,
-          Markdown,
+          //Markdown,
           MediaEmbed,
           Mention,
           PageBreak,
