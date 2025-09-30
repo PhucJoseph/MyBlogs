@@ -19,6 +19,8 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useNavigate } from "react-router-dom";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import usePermission from "../../hooks/usePermission";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 
 const Carousel = ({ data, handleNavigate }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -124,6 +126,13 @@ const Carousel = ({ data, handleNavigate }) => {
                 >
                   {dateTime}
                 </Typography>
+                <HorizontalRuleIcon />
+                <VisibilityIcon fontSize={isTablet ? "10px" : "14px"} />
+                <Typography
+                  sx={{ color: "#555", fontSize: isTablet ? "10px" : "14px" }}
+                >
+                  {data[currentIndex]?.views}
+                </Typography>
               </Box>
               <Typography
                 variant={isTablet ? "h6" : "h4"}
@@ -137,6 +146,7 @@ const Carousel = ({ data, handleNavigate }) => {
               >
                 {data[currentIndex]?.title}
               </Typography>
+
               <Typography
                 variant="body1"
                 className="carousel-description"
@@ -165,19 +175,21 @@ const Carousel = ({ data, handleNavigate }) => {
                   }}
                 >
                   Phuc Joseph
-                  <Typography
-                    sx={{
-                      marginLeft: "0.8rem",
-                      color: "#555",
-                      fontWeight: "500",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.25rem",
-                    }}
-                  >
-                    <CircleIcon sx={{ fontSize: "0.45rem" }} />{" "}
-                    {data[currentIndex]?.readingTime} to read
-                  </Typography>
+                  {data[currentIndex]?.readingTime && (
+                    <Typography
+                      sx={{
+                        marginLeft: "0.8rem",
+                        color: "#555",
+                        fontWeight: "500",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.25rem",
+                      }}
+                    >
+                      <CircleIcon sx={{ fontSize: "0.45rem" }} />{" "}
+                      {data[currentIndex]?.readingTime} to read
+                    </Typography>
+                  )}
                 </Typography>
               </Box>
             </Box>

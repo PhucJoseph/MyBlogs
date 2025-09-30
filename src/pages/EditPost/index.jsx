@@ -51,7 +51,6 @@ export default function EditPost() {
     async (id) => {
       try {
         const data = await getBlogById(id);
-        console.log(data);
         if (data) {
           methods.setValue("title", data.title);
           methods.setValue("type", data.type);
@@ -92,7 +91,6 @@ export default function EditPost() {
         date: curDate,
         thumbnail: postThumbnail,
       });
-      console.log(resData);
       if (resData.success) {
         toast.success(resData.message);
         navigate("/home-page");
