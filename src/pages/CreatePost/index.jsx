@@ -16,7 +16,7 @@ import { getAllTypeOfBlogs } from "../../firebase/Blogs/blogs";
 import { convertImageToBase64 } from "../../utils/helper";
 import toast from "react-hot-toast";
 import { addBlog } from "../../firebase/Blogs/blogs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 
 export default function CreatePost() {
@@ -28,6 +28,7 @@ export default function CreatePost() {
   const [content, setContent] = React.useState("");
   const [thumbnailPreview, setThumbnailPreview] = React.useState("");
   const [previousPath, setPreviousPath] = React.useState(null);
+  const location = useLocation();
 
   const handleSaveImage = async (file) => {
     try {
@@ -57,8 +58,10 @@ export default function CreatePost() {
   };
 
   React.useEffect(() => {
+    setPreviousPath((prev) => (location.pathname !== prev ? prev : null));
+
     fetchData();
-  }, []);
+  }, [location.pathname]);
 
   const onSubmit = async (data) => {
     setLoading(true);
