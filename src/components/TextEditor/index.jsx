@@ -86,13 +86,6 @@ export default function TextEditor({
 }) {
   const editorContainerRef = useRef(null);
   const editorRef = useRef(null);
-  const [isLayoutReady, setIsLayoutReady] = useState(false);
-
-  useEffect(() => {
-    setIsLayoutReady(true);
-
-    return () => setIsLayoutReady(false);
-  }, []);
 
   const { editorConfig } = useMemo(() => {
     return {
