@@ -27,8 +27,8 @@
     "react-scripts": "5.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "craco start",
+    "build": "craco build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -52,9 +52,15 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@craco/craco": "^7.1.0",
     "@eslint/js": "^9.36.0",
     "eslint": "^8.57.1",
     "eslint-plugin-react": "^7.37.5",
-    "globals": "^16.4.0"
+    "globals": "^16.4.0",
+    "postcss": "^8.5.6",
+    "postcss-import": "^16.1.1",
+    "postcss-loader": "^8.2.0",
+    "postcss-nesting": "^13.0.2",
+    "postcss-preset-env": "^10.4.0"
   }
 }
