@@ -6,7 +6,11 @@ import "./Editor.css";
 const LICENSE_KEY =
   "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NzA4NTQzOTksImp0aSI6IjI2MDI4ODQzLTg5OTAtNDY0MC04ODhlLTEyZjM4MTliNTA2NiIsImxpY2Vuc2VkSG9zdHMiOlsiMTI3LjAuMC4xIiwibG9jYWxob3N0IiwiMTkyLjE2OC4qLioiLCIxMC4qLiouKiIsIjE3Mi4qLiouKiIsIioudGVzdCIsIioubG9jYWxob3N0IiwiKi5sb2NhbCJdLCJ1c2FnZUVuZHBvaW50IjoiaHR0cHM6Ly9wcm94eS1ldmVudC5ja2VkaXRvci5jb20iLCJkaXN0cmlidXRpb25DaGFubmVsIjpbImNsb3VkIiwiZHJ1cGFsIl0sImxpY2Vuc2VUeXBlIjoiZGV2ZWxvcG1lbnQiLCJmZWF0dXJlcyI6WyJEUlVQIl0sInZjIjoiNzQ4NDNjNDkifQ.9qcvVkXsd7wIKeJlHFHr41Vz5HzfQHiPFwDTKWAU9iLEKACUhTBmwyNIWjip8imLqs39QAfeGmGDOsElrNwO7Q";
 
-export default function TextEditor({ setContent, content }) {
+export default function TextEditor({
+  setContent,
+  content,
+  isReadOnly = false,
+}) {
   const editorContainerRef = useRef(null);
   const editorRef = useRef(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
@@ -66,7 +70,7 @@ export default function TextEditor({ setContent, content }) {
       LinkImage,
       List,
       ListProperties,
-      Markdown,
+      //Markdown,
       MediaEmbed,
       Mention,
       PageBreak,
@@ -172,7 +176,7 @@ export default function TextEditor({ setContent, content }) {
           LinkImage,
           List,
           ListProperties,
-          Markdown,
+          //Markdown,
           MediaEmbed,
           Mention,
           PageBreak,
@@ -276,7 +280,7 @@ export default function TextEditor({ setContent, content }) {
             "resizeImage",
           ],
         },
-        initialData: content || '',
+        initialData: content || "",
         licenseKey: LICENSE_KEY,
         link: {
           addTargetToExternalLinks: true,
@@ -371,8 +375,9 @@ export default function TextEditor({ setContent, content }) {
           ],
         },
       },
+      readOnly: isReadOnly,
     };
-  }, [cloud, isLayoutReady, content]);
+  }, [cloud, isLayoutReady, content, isReadOnly]);
 
   return (
     <div className="main-container">
@@ -384,6 +389,7 @@ export default function TextEditor({ setContent, content }) {
           <div ref={editorRef}>
             {ClassicEditor && editorConfig && (
               <CKEditor
+                id="CKEditor-ID"
                 editor={ClassicEditor}
                 config={editorConfig}
                 data={content}
@@ -391,6 +397,16 @@ export default function TextEditor({ setContent, content }) {
                   const data = editor.getData();
                   setContent(data);
                 }}
+                // onReady={(editor) => {
+                //   if(isReadOnly) {
+                //     editor.enableReadOnlyMode("CKEditor-ID")
+                //     editor.ui.view.toolbar.element.style.display = 'none'
+                //     editor.ui.view.body
+                //   } else {
+                //     editor.disableReadOnlyMode("CKEditor-ID")
+                //     editor.ui.view.toolbar.element.style.display = 'flex'
+                //   }
+                // }}
               />
             )}
           </div>
@@ -403,4 +419,5 @@ export default function TextEditor({ setContent, content }) {
 TextEditor.propTypes = {
   setContent: PropTypes.func.isRequired,
   content: PropTypes.string,
+  isReadOnly: Boolean,
 };

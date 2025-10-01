@@ -62,7 +62,7 @@ function HomePage() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "100%",
+        width: "100vw",
       }}
     >
       <Box
@@ -71,11 +71,11 @@ function HomePage() {
           left: "auto",
           top: "0%",
           right: "0%",
-          width: "100%",
+          width: "35vw",
           maxWidth: "35%",
           maxHeight: "600px",
-          height: "100%",
-          minWidth: "300px",
+          height: "60vh",
+          minWidth: "100px",
           zIndex: -1,
           backgroundColor: "#fff5ef",
         }}

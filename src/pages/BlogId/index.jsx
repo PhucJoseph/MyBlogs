@@ -19,6 +19,11 @@ import avatar from "../../assets/image/avata.jpeg";
 import CircleIcon from "@mui/icons-material/Circle";
 import Loading from "../../components/Loading";
 import useAsync from "../../hooks/useAsync";
+import { useRef } from "react";
+
+// 🔥 import Firestore helpers
+import { doc, updateDoc, increment } from "firebase/firestore";
+import { db } from "../../firebase/firebase";
 
 export default function BlogId() {
   const param = useParams();
@@ -26,20 +31,21 @@ export default function BlogId() {
   const location = useLocation();
   const [previousPath, setPreviousPath] = useState(null);
   const isMobile = useMediaQuery("(max-width:600px)");
-  const {loading, value} = useAsync(() => {
-    return new Promise((resolve, reject) => {
-      getBlogById(param.id).then((data) => {
-        if (data) {
-          resolve(data)
-        } else {
-          reject("No data")
-        }
-      }).catch((error) => {
-        reject(error)
-      })
+  const hasIncremented = useRef(false);
 
-    })
-  },[param.id]);
+  const { loading, value } = useAsync(() => {
+    return new Promise((resolve, reject) => {
+      getBlogById(param.id)
+        .then((data) => {
+          if (data) {
+            resolve(data);
+          } else {
+            reject("No data");
+          }
+        })
+        .catch(reject);
+    });
+  }, [param.id]);
 
   const handleGoBack = () => {
     if (previousPath) {
@@ -48,9 +54,17 @@ export default function BlogId() {
       navigate("/home-page"); // Default fallback if no previous page is stored
     }
   };
-
+  
   React.useEffect(() => {
     setPreviousPath((prev) => (location.pathname !== prev ? prev : null));
+
+    if (param.id && !hasIncremented.current) {
+      hasIncremented.current = true;
+      const postRef = doc(db, "blogs", param.id);
+      updateDoc(postRef, { views: increment(1) }).catch((err) =>
+        console.error("Failed to increment view:", err)
+      );
+    }
   }, [param.id, location.pathname]);
 
   if (loading) {
@@ -107,7 +121,12 @@ export default function BlogId() {
             {value?.type}
           </Box>
           {value?.date && convertTimestampToDate(value?.date)}
+          {/* 👀 Hiển thị view count */}
+          <span style={{ marginLeft: "1rem" }}>
+            👀 {value?.views || 0} views
+          </span>
         </Typography>
+
         <Typography
           variant={isMobile ? "h6" : "h3"}
           sx={{
@@ -144,12 +163,12 @@ export default function BlogId() {
                 gap: "0.25rem",
               }}
             >
-              <CircleIcon sx={{ fontSize: "0.45rem" }} /> {value?.readingTime} to
-              read
+              <CircleIcon sx={{ fontSize: "0.45rem" }} /> {value?.readingTime}{" "}
+              to read
             </Typography>
           </Typography>
         </Box>
-        <Typography variant="body1" sx={{ fontFamily: "var(--font-text-SSP)", }}>
+        <Typography variant="body1" sx={{ fontFamily: "var(--font-text-SSP)" }}>
           <div
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(value.content),
