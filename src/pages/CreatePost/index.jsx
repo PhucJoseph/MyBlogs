@@ -7,6 +7,7 @@ import {
   Typography,
   Button,
   Grid2,
+  IconButton,
 } from "@mui/material";
 import CardCover from "../../components/Card";
 import Editor from "../../components/TextEditor";
@@ -16,6 +17,7 @@ import { convertImageToBase64 } from "../../utils/helper";
 import toast from "react-hot-toast";
 import { addBlog } from "../../firebase/Blogs/blogs";
 import { useNavigate } from "react-router-dom";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 
 export default function CreatePost() {
   const methods = useForm();
@@ -25,16 +27,17 @@ export default function CreatePost() {
   const [selectedType, setSelectedType] = React.useState([]);
   const [content, setContent] = React.useState("");
   const [thumbnailPreview, setThumbnailPreview] = React.useState("");
+  const [previousPath, setPreviousPath] = React.useState(null);
 
   const handleSaveImage = async (file) => {
     try {
       const base64Thumbnail = await convertImageToBase64(file);
-      setPostThumbnail(file)
+      setPostThumbnail(file);
       setThumbnailPreview(base64Thumbnail);
     } catch (error) {
       toast.error("Error converting image to Base64:", error);
     }
-  }
+  };
 
   const fetchData = async () => {
     try {
@@ -42,6 +45,14 @@ export default function CreatePost() {
       setSelectedType(result.filter((item) => item.name !== "Home"));
     } catch (error) {
       toast.error("OOPS, Có lỗi rồi 〒▽〒");
+    }
+  };
+
+  const handleGoBack = () => {
+    if (previousPath) {
+      navigate(previousPath);
+    } else {
+      navigate("/home-page"); // Default fallback if no previous page is stored
     }
   };
 
@@ -90,9 +101,16 @@ export default function CreatePost() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        marginTop: "64px",
       }}
     >
       <Grid2 item sx={{ height: "100%", minWidth: "450px", width: "auto" }}>
+        <IconButton
+          onClick={() => handleGoBack()}
+          sx={{ position: "absolute", left: "1%" }}
+        >
+          <KeyboardDoubleArrowLeftIcon />
+        </IconButton>
         <CardCover hasShadow={false}>
           <Stack sx={{ padding: "20px" }} alignItems={"center"} gap={2}>
             <FormProvider {...methods}>
@@ -173,6 +191,56 @@ export default function CreatePost() {
                       flexDirection: "column",
                     }}
                   >
+                    <Typography>Thời gian đọc bài</Typography>
+                    <Controller
+                      name="description"
+                      control={methods.control}
+                      sx={{ width: "100%" }}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          placeholder="Thời gian đọc bài"
+                          variant="outlined"
+                          size="small"
+                          name="description"
+                          required
+                        />
+                      )}
+                    />
+                  </Grid2>
+
+                  <Grid2
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Typography>Mô tả bài viết</Typography>
+                    <Controller
+                      name="readingTime"
+                      control={methods.control}
+                      sx={{ width: "100%" }}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          placeholder="Mô tả bài viết"
+                          variant="outlined"
+                          size="small"
+                          name="readingTime"
+                          required
+                        />
+                      )}
+                    />
+                  </Grid2>
+
+                  <Grid2
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
                     <Typography>Thumbnail bài viết</Typography>
                     <Controller
                       name="thumbnail"
@@ -196,7 +264,7 @@ export default function CreatePost() {
                     <img
                       alt="thumbnail"
                       src={thumbnailPreview}
-                      style={{aspectRatio: "16/9", width: "300px"}}
+                      style={{ aspectRatio: "16/9", width: "300px" }}
                     />
                   )}
                   <Grid2
@@ -218,7 +286,7 @@ export default function CreatePost() {
                     marginTop: "10px",
                     float: "right",
                     backgroundColor: "var(--secondary-color)",
-                    textTransform:'none'
+                    textTransform: "none",
                   }}
                 >
                   Tạo bài viết
