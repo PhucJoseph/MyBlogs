@@ -61,7 +61,7 @@ export default function CreatePost() {
     setPreviousPath((prev) => (location.pathname !== prev ? prev : null));
 
     fetchData();
-  }, []);
+  }, [location.pathname]);
 
   const onSubmit = async (data) => {
     setLoading(true);
