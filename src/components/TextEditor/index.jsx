@@ -370,7 +370,7 @@ export default function TextEditor({
       },
       readOnly: isReadOnly,
     };
-  }, [isLayoutReady, content, isReadOnly]);
+  }, [content, isReadOnly]);
 
   return (
     <div className="main-container">
