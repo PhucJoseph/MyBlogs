@@ -9,7 +9,7 @@ import {
   Grid2,
 } from "@mui/material";
 import CardCover from "../../components/Card";
-import Editor from "../../components/TextEditor";
+import TextEditor from "../../components/TextEditor";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import {
   getAllTypeOfBlogs,
@@ -285,7 +285,7 @@ export default function EditPost() {
                     }}
                   >
                     <Typography>Nội dung bài viết</Typography>
-                    <Editor setContent={setContent} content={content} />
+                    <TextEditor setContent={setContent} content={content}/>
                   </Grid2>
                 </Grid2>
                 <Button
