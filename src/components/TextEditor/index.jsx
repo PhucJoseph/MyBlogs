@@ -1,7 +1,81 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import { CKEditor, useCKEditorCloud } from "@ckeditor/ckeditor5-react";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 import PropTypes from "prop-types";
 import "./Editor.css";
+import {
+  Alignment,
+  Autoformat,
+  AutoImage,
+  AutoLink,
+  Autosave,
+  BlockQuote,
+  Bold,
+  Bookmark,
+  Code,
+  Emoji,
+  Essentials,
+  FindAndReplace,
+  FontBackgroundColor,
+  FontColor,
+  FontFamily,
+  FontSize,
+  GeneralHtmlSupport,
+  Heading,
+  Highlight,
+  HorizontalLine,
+  HtmlComment,
+  HtmlEmbed,
+  ImageBlock,
+  ImageCaption,
+  ImageEditing,
+  ImageInline,
+  ImageInsert,
+  ImageInsertViaUrl,
+  ImageResize,
+  ImageStyle,
+  ImageTextAlternative,
+  ImageToolbar,
+  ImageUpload,
+  ImageUtils,
+  Indent,
+  IndentBlock,
+  Italic,
+  Link,
+  LinkImage,
+  List,
+  ListProperties,
+  //Markdown,
+  MediaEmbed,
+  Mention,
+  PageBreak,
+  Paragraph,
+  PasteFromMarkdownExperimental,
+  PasteFromOffice,
+  RemoveFormat,
+  SimpleUploadAdapter,
+  SpecialCharacters,
+  SpecialCharactersArrows,
+  SpecialCharactersCurrency,
+  SpecialCharactersEssentials,
+  SpecialCharactersLatin,
+  SpecialCharactersMathematical,
+  SpecialCharactersText,
+  Strikethrough,
+  Style,
+  Subscript,
+  Superscript,
+  Table,
+  TableCaption,
+  TableCellProperties,
+  TableColumnResize,
+  TableProperties,
+  TableToolbar,
+  TextTransformation,
+  TodoList,
+  Underline,
+} from "ckeditor5";
 
 const LICENSE_KEY = "GPLs";
 
@@ -13,7 +87,6 @@ export default function TextEditor({
   const editorContainerRef = useRef(null);
   const editorRef = useRef(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
-  const cloud = useCKEditorCloud({ version: "44.3.0" });
 
   useEffect(() => {
     setIsLayoutReady(true);
@@ -21,87 +94,8 @@ export default function TextEditor({
     return () => setIsLayoutReady(false);
   }, []);
 
-  const { ClassicEditor, editorConfig } = useMemo(() => {
-    if (cloud.status !== "success" || !isLayoutReady) {
-      return {};
-    }
-
-    const {
-      ClassicEditor,
-      Alignment,
-      Autoformat,
-      AutoImage,
-      AutoLink,
-      Autosave,
-      BlockQuote,
-      Bold,
-      Bookmark,
-      Code,
-      Emoji,
-      Essentials,
-      FindAndReplace,
-      FontBackgroundColor,
-      FontColor,
-      FontFamily,
-      FontSize,
-      GeneralHtmlSupport,
-      Heading,
-      Highlight,
-      HorizontalLine,
-      HtmlComment,
-      HtmlEmbed,
-      ImageBlock,
-      ImageCaption,
-      ImageEditing,
-      ImageInline,
-      ImageInsert,
-      ImageInsertViaUrl,
-      ImageResize,
-      ImageStyle,
-      ImageTextAlternative,
-      ImageToolbar,
-      ImageUpload,
-      ImageUtils,
-      Indent,
-      IndentBlock,
-      Italic,
-      Link,
-      LinkImage,
-      List,
-      ListProperties,
-      //Markdown,
-      MediaEmbed,
-      Mention,
-      PageBreak,
-      Paragraph,
-      PasteFromMarkdownExperimental,
-      PasteFromOffice,
-      RemoveFormat,
-      SimpleUploadAdapter,
-      SpecialCharacters,
-      SpecialCharactersArrows,
-      SpecialCharactersCurrency,
-      SpecialCharactersEssentials,
-      SpecialCharactersLatin,
-      SpecialCharactersMathematical,
-      SpecialCharactersText,
-      Strikethrough,
-      Style,
-      Subscript,
-      Superscript,
-      Table,
-      TableCaption,
-      TableCellProperties,
-      TableColumnResize,
-      TableProperties,
-      TableToolbar,
-      TextTransformation,
-      TodoList,
-      Underline,
-    } = cloud.CKEditor;
-
+  const { editorConfig } = useMemo(() => {
     return {
-      ClassicEditor,
       editorConfig: {
         toolbar: {
           items: [
@@ -376,7 +370,7 @@ export default function TextEditor({
       },
       readOnly: isReadOnly,
     };
-  }, [cloud, isLayoutReady, content, isReadOnly]);
+  }, [isLayoutReady, content, isReadOnly]);
 
   return (
     <div className="main-container">
