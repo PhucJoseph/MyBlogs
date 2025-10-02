@@ -6,10 +6,10 @@
   --black: #000000;
   --dark: #212529;
   --white: #fefbfb;
-  --white-1: #F3F3F3;
+  --white-1: #f3f3f3;
   --text-color: #006073e4;
-  --text-color-blue: #3670C6;
-  --color: #00A97F;
+  --text-color-blue: #3670c6;
+  --color: #00a97f;
 
   --color-tag-1: #ffcda3;
   --color-tag-2: #58c1c8;
@@ -17,9 +17,9 @@
   --color-tag-4: #76e1c6;
   --color-tag-5: #f0a9a9;
 
-  --button-color-blue: #0457CD;
+  --button-color-blue: #0457cd;
 
-  --toast-error-bg: #fdeded; 
+  --toast-error-bg: #fdeded;
   --toast-error-text: #5f2120;
 
   --toast-success-bg: #edf7ed;
@@ -31,19 +31,18 @@
   --toast-infor-bg: #e5f6fd;
   --toast-infor-text: #014361;
 
-  --font-text-SSP: "Source Sans Pro" , sans-serif;
+  --font-text-SSP: "Source Sans Pro", sans-serif;
 }
 
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    "Merienda", "Courier Prime", "Source Sans Pro", sans-serif ;
+    "Merienda", "Courier Prime", "Source Sans Pro", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
   min-width: 600px;
-  
 }
 
 code {
@@ -86,4 +85,16 @@ code {
   height: auto;
   display: block;
   margin: 0 auto;
+}
+
+/* CKEDITOR5 CSS for*/
+blockquote {
+  border-left: 4px solid #CCCCCC; /* colored left border */
+  background: #f9f9f9; /* subtle background */
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: #333;
+  position: relative;
+  border-radius: 4px;
 }

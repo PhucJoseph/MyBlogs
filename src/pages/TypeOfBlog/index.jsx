@@ -1,20 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  getAllBlogs,
-  // deleteDocument,
-  getBlogByTab,
-} from "../../firebase/Blogs/blogs";
+import { useNavigate, useParams } from "react-router-dom";
+import { getAllBlogs, getBlogByTab, deleteDocument } from "../../firebase/Blogs/blogs";
 import { Grid2, Box } from "@mui/material";
-// import { isMoreThanThreeDaysAgo } from "../../utils/helper";
-// import usePermission from "../../hooks/usePermission";
-// import MenuComponent from "../../components/Menu";
-
-// import toast from "react-hot-toast";
-// import { TAG_COLORS } from "../../constants/const";
-import { useParams } from "react-router-dom";
-
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Carousel from "../../components/Carousel";
+import toast from "react-hot-toast";
 
 const tab = {
   "home-page": "home",
@@ -25,31 +15,42 @@ const tab = {
 };
 
 function HomePage() {
-  const [data, setData] = React.useState([]);
-  // const permit = usePermission();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { type } = useParams();
+  const param = tab[type];
 
-  const tabName = useParams();
-  const param = tab[tabName.type];
+  // ✅ fetch blogs
+  const { data: blogs = [], isLoading } = useQuery({
+    queryKey: ["blogs", param],
+    queryFn: async () => {
+      if (param !== "home") return getBlogByTab(param);
+      return getAllBlogs();
+    },
+  });
 
-  const fetchBlogs = React.useCallback(async () => {
-    if (param !== "home") {
-      const data = await getBlogByTab(param);
-      setData(data);
-    } else {
-      const resData = await getAllBlogs();
-      setData(resData);
-    }
-  }, [param]);
+  // ✅ delete mutation
+  const deleteMutation = useMutation({
+    mutationFn: (id) => deleteDocument(id),
+    onSuccess: (res, id) => {
+      if (res.success) {
+        toast.success(res.message);
+        // remove deleted blog from cache
+        queryClient.setQueryData(["blogs", param], (old = []) =>
+          old.filter((b) => b.id !== id)
+        );
+      } else {
+        toast.error(res.message);
+      }
+    },
+    onError: () => {
+      toast.error("Failed to delete blog");
+    },
+  });
 
-  React.useEffect(() => {
-    fetchBlogs();
-  }, [tabName, fetchBlogs]);
-
+  // navigate to blog detail
   const handleNavigate = (type, id) => {
-    let path = "";
-    path = "/" + String(type).toLowerCase() + "/" + id;
-    navigate(path);
+    navigate(`/${String(type).toLowerCase()}/${id}`);
   };
 
   return (
@@ -79,7 +80,7 @@ function HomePage() {
           zIndex: -1,
           backgroundColor: "#fff5ef",
         }}
-      ></Box>
+      />
       <Grid2
         container
         xs={12}
@@ -98,7 +99,15 @@ function HomePage() {
           gap: 4,
         }}
       >
-        <Carousel data={data} handleNavigate={handleNavigate} />
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <Carousel
+            data={blogs}
+            handleNavigate={handleNavigate}
+            handleDelete={(id) => deleteMutation.mutate(id)}
+          />
+        )}
       </Grid2>
     </Grid2>
   );
