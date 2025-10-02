@@ -22,7 +22,7 @@ import usePermission from "../../hooks/usePermission";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 
-const Carousel = ({ data, handleNavigate }) => {
+const Carousel = ({ data, handleNavigate, handleDelete }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const isMobile = useMediaQuery("(max-width:600px)");
   const isTablet = useMediaQuery("(max-width:900px)");
@@ -58,23 +58,13 @@ const Carousel = ({ data, handleNavigate }) => {
     }
   };
 
-  // const handleDeletePost = async (id) => {
-  //   const res = await deleteDocument(id);
-  //   if (res.success) {
-  //     fetchBlogs();
-  //     toast.success(res.message);
-  //   } else {
-  //     toast.error(res.message);
-  //   }
-  // };
-
   const handleEditPost = (id) => {
     navigate(`/edit-post/${id}`);
   };
 
   const options = [
     { name: "Edit", icon: <CreateIcon />, action: handleEditPost },
-    { name: "Delete", icon: <DeleteForeverIcon />, action: () => {} },
+    { name: "Delete", icon: <DeleteForeverIcon />, action: handleDelete },
   ];
 
   return (

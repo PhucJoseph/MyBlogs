@@ -9,6 +9,7 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.4.3",
     "@mui/material": "^6.4.3",
+    "@tanstack/react-query": "^5.90.2",
     "caniuse-lite": "^1.0.30001746",
     "ckeditor5": "^46.1.1",
     "ckeditor5-premium-features": "^46.1.1",

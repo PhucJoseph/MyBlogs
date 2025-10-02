@@ -16,3 +16,6 @@ export const TAG_COLORS = {
         "color": "var(--dark)",
     },
 }
+
+export const CLOUD_NAME = "dlwuz8jtp"
+export const UPLOAD_PRESET = "MyBlog"; // 👈 from Cloudinary dashboard
