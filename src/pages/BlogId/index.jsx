@@ -54,7 +54,7 @@ export default function BlogId() {
       navigate("/home-page"); // Default fallback if no previous page is stored
     }
   };
-  
+
   React.useEffect(() => {
     setPreviousPath((prev) => (location.pathname !== prev ? prev : null));
 
