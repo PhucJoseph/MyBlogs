@@ -29,7 +29,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
+    "build": "craco build && copy public\\_redirects build\\_redirects",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
