@@ -10,6 +10,8 @@ import {
 
 import CustomToaster from "./components/Toast";
 
+const LeftMenu = lazy(() => import("./components/LeftMenu/LeftMenu"));
+
 function App() {
   return (
     <Routes>
@@ -22,6 +24,17 @@ function App() {
         }
       >
 
+        {/* Layout for main app */}
+        <Route element={
+          <>
+            <LeftMenu />
+            <Outlet />
+          </>
+        }>
+          <Route path="/" element={<>test a</>} />
+          <Route path="/test" element={<>test b</>} />
+
+        </Route>
       </Route>
     </Routes>
   );
